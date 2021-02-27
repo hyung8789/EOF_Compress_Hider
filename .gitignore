@@ -2,8 +2,9 @@
 bin/Debug/
 백업/
 
-#소스트리 폴더, VS 폴더
+#소스트리, VS
 .git
 .vs/
 .bin/
 .obj/
+obj
