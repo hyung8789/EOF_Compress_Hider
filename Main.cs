@@ -36,7 +36,7 @@ namespace EOF_Compress_Hider
             this._compHider = new EOFCompressHider(this);
             this._optionValues = new OptionValues();
             
-            this._logManager.Update_Log("Ready", Predef.LogMode.APPEND);
+            this._logManager.UpdateLog("Ready", Predef.LogMode.APPEND);
         }
 
         #region 타이틀바 이벤트 처리
@@ -89,12 +89,12 @@ namespace EOF_Compress_Hider
 
             if (fileDlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                /*** 기존 데이터 모두 초기화 ***/
-                target_textBox.ResetText();
-
+                /*** Append 위하여 기존 데이터 모두 초기화 ***/
+                this.target_textBox.ResetText();
+                
                 foreach(string fileName in fileDlg.FileNames)
                 {
-                   // target_textBox.Text += fileName + Environment.NewLine;
+                    this.target_textBox.Text += fileName + Environment.NewLine;
                 }
             }
         }
@@ -105,9 +105,7 @@ namespace EOF_Compress_Hider
 
             if (fileDlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                /*** 기존 데이터 모두 초기화 ***/
-                this.target_textBox.ResetText();
-                this.target_textBox.Text += fileDlg.FileName;
+                this.target_textBox.Text = fileDlg.FileName;
             }
         }
 
@@ -123,6 +121,7 @@ namespace EOF_Compress_Hider
         #region 메인 폼 하단 버튼들 이벤트 처리
         private void gen_button_Click(object sender, EventArgs e) //생성 버튼 클릭
         {
+            this._compHider.Init();
             /*
             if (this.coverImg_textBox.Text == string.Empty || this.target_textBox.Text == string.Empty || this.output_textBox.Text == string.Empty) //모든 데이터가 입력되었는지 확인
             {
@@ -157,16 +156,7 @@ namespace EOF_Compress_Hider
                 default:
                     break;
             }
-            /*
-            for (int i = 0; i < 10; i++)
-                Update_Logger("appendtest" + i, LogMode.APPEND);
-
-            for (int i = 0; i < 10; i++)
-                Update_Logger("overtest" + i, LogMode.OVERWRITE);
- */
-            //ThreadStart threadDelegate = new ThreadStart(this._compHider.Generate(null, "","",""));
-            //Thread worker = new Thread(new ParameterizedThreadStart(this._compHider.Generate));
-
+           
             /***
                 전달 위한 다수의 파라미터를 개체로 다시 묶지 않으면서 전달을 위해 
                 ParameterizedThreadStart를 사용하지 않고
@@ -242,5 +232,9 @@ namespace EOF_Compress_Hider
         }
         #endregion
 
+        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+
+        }
     }
 }

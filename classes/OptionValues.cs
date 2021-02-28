@@ -14,7 +14,7 @@
             this._compressLevel = Predef.CompressLevel.MID;
 
             this._password = string.Empty;
-            this._encryptionMethod = Predef.EncryptionMethod.AES256;
+            this._encryptionMethod = Predef.EncryptionMethod.ZipCrypto;
         }
         public bool OverwriteCurrentImage
         {

@@ -38,9 +38,9 @@
         public enum EncryptionMethod : int //암호화 방식
         {
             None = 0,
-            ZipCrypto = 1,
+            ZipCrypto = 1, //default
             AES128 = 2,
-            AES256 = 3 //default
+            AES256 = 3 
         }
     }
 }

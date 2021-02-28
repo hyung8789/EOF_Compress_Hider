@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace EOF_Compress_Hider.classes
 {
@@ -10,41 +11,33 @@ namespace EOF_Compress_Hider.classes
         {
             this._main = srcMain; //직접적인 로그 작업 수행 위해 메인 폼 참조
         }
-        public void Update_Log(string srcData, Predef.LogMode srcLogMode) //로그 업데이트
+       
+        public void UpdateLog(string srcData, Predef.LogMode srcLogMode) //로그 업데이트
         {
-            int latestItemIndex = 0; //마지막으로 추가된 항목의 인덱스
-
             switch (srcLogMode)
             {
-                case Predef.LogMode.APPEND:
-                    if (_main.log_ListBox.InvokeRequired) //호출한 스레드가 작업 스레드인 경우
+                case Predef.LogMode.APPEND: //새로 추가
+                    if (_main.log_ListBox.InvokeRequired) //호출한 스레드가 작업 스레드인 경우 비동기식으로 수행
                     {
-                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.Items.Add(srcData))); //비동기식으로 수행
+                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.Items.Add(srcData)));
+                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.SetSelected(_main.log_ListBox.Items.Count - 1, true))); //새로 추가 된 항목으로 스크롤 다운
                     }
                     else //UI 스레드인 경우
                     {
                         _main.log_ListBox.Items.Add(srcData);
+                        _main.log_ListBox.SetSelected(_main.log_ListBox.Items.Count - 1, true); //새로 추가 된 항목으로 스크롤 다운
                     }
-
-                    //새로 추가 된 항목에 따라 인덱스 계산 후 스크롤 다운
-                    //latestItemIndex = logger.Items.Count - 1;
-                    // logger.SetSelected(latestItemIndex, true);
 
                     break;
 
-                case Predef.LogMode.OVERWRITE:
-                    //마지막으로 추가 된 항목을 제거하고 새로 추가
-                    latestItemIndex = _main.log_ListBox.Items.Count - 1;
-
-                    if (_main.log_ListBox.InvokeRequired) //호출한 스레드가 작업 스레드인 경우
+                case Predef.LogMode.OVERWRITE: //마지막으로 추가 된 항목 수정
+                    if (_main.log_ListBox.InvokeRequired) //호출한 스레드가 작업 스레드인 경우 비동기식으로 수행
                     {
-                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.Items.RemoveAt(latestItemIndex)));
-                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.Text = srcData)); //비동기식으로 logger 텍스트 변경
+                        _main.log_ListBox.BeginInvoke(new Action(() => _main.log_ListBox.Items[_main.log_ListBox.Items.Count - 1] = srcData));
                     }
                     else //UI 스레드인 경우
                     {
-                        _main.log_ListBox.Items.RemoveAt(latestItemIndex);
-                        _main.log_ListBox.Items.Add(srcData);
+                        _main.log_ListBox.Items[_main.log_ListBox.Items.Count - 1] = srcData;
                     }
 
                     break;
