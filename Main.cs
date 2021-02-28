@@ -3,6 +3,7 @@ using Microsoft.WindowsAPICodePack.Dialogs; //CommonOpenFileDialog
 using System;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -22,6 +23,10 @@ namespace EOF_Compress_Hider
         #endregion
 
         #region 메인 폼 이벤트 처리 위한 변수
+        public bool _coverImgInitValue;
+        public bool _targetInitValue;
+        public bool _outputInitValue;
+
         private bool _titleBarMouseClicked = false; //타이틀바 마우스 클릭 여부
         private Point _mainFormCurrentPos; //메인 폼 현재 위치
         #endregion
@@ -32,10 +37,12 @@ namespace EOF_Compress_Hider
             this.Font = new Font(FontLibrary.Families[0], 8);
 
             /*** Init ***/
+            this._coverImgInitValue = this._targetInitValue = this._outputInitValue = true;
+
             this._logManager = new LogManager(this);
             this._compHider = new EOFCompressHider(this);
             this._optionValues = new OptionValues();
-            
+
             this._logManager.UpdateLog("Ready", Predef.LogMode.APPEND);
         }
 
@@ -78,10 +85,12 @@ namespace EOF_Compress_Hider
                 /*** 기존 데이터 모두 초기화 ***/
                 coverImg_textBox.Clear();
                 coverImg_textBox.Text = coverImg_openFileDialog.FileName;
+
+                this._coverImgInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
 
-        private void select_srcFile_button_Click(object sender, EventArgs e) //숨기기 위한 파일 지정 버튼 클릭
+        private void select_targetFile_button_Click(object sender, EventArgs e) //숨기기 위한 파일 지정 버튼 클릭
         {
             CommonOpenFileDialog fileDlg = new CommonOpenFileDialog();
             fileDlg.Multiselect = true;
@@ -91,14 +100,29 @@ namespace EOF_Compress_Hider
             {
                 /*** Append 위하여 기존 데이터 모두 초기화 ***/
                 this.target_textBox.ResetText();
-                
-                foreach(string fileName in fileDlg.FileNames)
+
+
+                //파일 다이얼로그에 입력 된 파일의 개수에 따라 마지막 파일은 줄바꿈 문자를 넣지 않도록 수정해야 한다.
+                //이에 따라 Compress 함수에서 파일 리스트와 파일 개수 세는 부분도 수정 해야 한다.
+                //Compress에서 파일 총 개수를 다시 세지 않게 하려면 어떻게 해야 하지??????????????
+                int totalFileCount = Enumerable.Count(fileDlg.FileNames);
+                int currentFileIndex = 0;
+                foreach (string fileName in fileDlg.FileNames)
                 {
-                    this.target_textBox.Text += fileName + Environment.NewLine;
+                    currentFileIndex++;
+
+                    if (currentFileIndex < totalFileCount)
+                        this.target_textBox.Text += fileName + Environment.NewLine;
+                    else
+                        this.target_textBox.Text += fileName;
                 }
+                //Enumer
+                //this.target_textBox.Text = this.target_textBox.Text.Remove(this.target_textBox.Text.LastIndexOf(Environment.NewLine)); //마지막 파일은 줄바꿈 문자를 넣지 않도록 수정
+
+                this._targetInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
-        private void select_srcFolder_button_Click(object sender, EventArgs e) //숨기기 위한 폴더 지정 버튼 클릭
+        private void select_targetFolder_button_Click(object sender, EventArgs e) //숨기기 위한 폴더 지정 버튼 클릭
         {
             CommonOpenFileDialog fileDlg = new CommonOpenFileDialog();
             fileDlg.IsFolderPicker = true;
@@ -106,6 +130,8 @@ namespace EOF_Compress_Hider
             if (fileDlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 this.target_textBox.Text = fileDlg.FileName;
+
+                this._targetInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
 
@@ -114,6 +140,8 @@ namespace EOF_Compress_Hider
             if (this.target_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 this.output_textBox.Text = target_saveFileDialog.FileName;
+
+                this._outputInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
         #endregion
@@ -121,16 +149,15 @@ namespace EOF_Compress_Hider
         #region 메인 폼 하단 버튼들 이벤트 처리
         private void gen_button_Click(object sender, EventArgs e) //생성 버튼 클릭
         {
-            this._compHider.Init();
-            /*
-            if (this.coverImg_textBox.Text == string.Empty || this.target_textBox.Text == string.Empty || this.output_textBox.Text == string.Empty) //모든 데이터가 입력되었는지 확인
+            //this._compHider.Init();
+
+            if (this._coverImgInitValue || this._targetInitValue || this._outputInitValue) //모든 데이터가 입력되었는지 확인
             {
                 MessageBox.Show("미 입력된 데이터가 존재합니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (Path.GetExtension(this.coverImg_textBox.Text) !=
-                Path.GetExtension(this.output_textBox.Text)) //원본 확장자와 출력 확장자가 다를 경우
+            if (Path.GetExtension(this.coverImg_textBox.Text) != Path.GetExtension(this.output_textBox.Text)) //원본 확장자와 출력 확장자가 다를 경우
             {
                 DialogResult result = MessageBox.Show("커버로 사용 할 이미지 파일과 출력 파일의 확장자가 다릅니다. 계속 하시겠습니까?", "경고", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 switch (result)
@@ -144,7 +171,7 @@ namespace EOF_Compress_Hider
                         break;
                 }
             }
-            */
+
 
             /*** 이미 파일 처리 작업 중일 시 생성 버튼 중복 클릭 차단 ***/
             switch (_compHider.CurrentFileIOState)
@@ -156,7 +183,7 @@ namespace EOF_Compress_Hider
                 default:
                     break;
             }
-           
+
             /***
                 전달 위한 다수의 파라미터를 개체로 다시 묶지 않으면서 전달을 위해 
                 ParameterizedThreadStart를 사용하지 않고
@@ -230,11 +257,7 @@ namespace EOF_Compress_Hider
         {
             System.Diagnostics.Process.Start("https://github.com/hyung8789");
         }
+
         #endregion
-
-        private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
-        {
-
-        }
     }
 }

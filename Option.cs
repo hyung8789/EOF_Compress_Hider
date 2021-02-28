@@ -7,6 +7,7 @@ namespace EOF_Compress_Hider
 {
     public partial class Option : Form
     {
+        #region public:
         public Main _main;
 
         public Option()
@@ -28,7 +29,9 @@ namespace EOF_Compress_Hider
                 this.encryptionMethod_comboBox.Items.Add(item);
             }
         }
+        #endregion
 
+        #region private:
         private void Option_Load(object sender, EventArgs e) //폼 로드 시 수행
         {
             /*** 메인 폼의 기존 데이터로부터 불러오기 ***/
@@ -48,19 +51,29 @@ namespace EOF_Compress_Hider
                     this.compressLevel_comboBox.SelectedIndex = 2;
                     break;
             }
-
-            this.encryptionMethod_comboBox.SelectedIndex = (int)_main._optionValues.EncryptionMethod;
-
+            
             this.password_textBox.Text = this.password_confirm_textBox.Text = _main._optionValues.Password;
+
+            switch (UsePassword())
+            {
+                case true:
+                    this.encryptionMethod_comboBox.Enabled = true;
+                    break;
+
+                case false:
+                    this.encryptionMethod_comboBox.Enabled = false;
+                    break;
+            }
+            this.encryptionMethod_comboBox.SelectedIndex = (int)_main._optionValues.EncryptionMethod;
         }
 
-        private void btnInit_Click(object sender, EventArgs e) //초기화 버튼 클릭
+        private void Init_button_Click(object sender, EventArgs e) //초기화 버튼 클릭
         {
             _main._optionValues.Init();
             this.Option_Load(sender, e);
         }
 
-        private void btnOk_Click(object sender, EventArgs e) //확인 버튼 클릭
+        private void Ok_button_Click(object sender, EventArgs e) //확인 버튼 클릭
         {
             /*** 옵션 값들 저장 후 종료 ***/
             _main._optionValues.OverwriteCurrentImage = this.overwrite_checkBox.Checked;
@@ -89,7 +102,7 @@ namespace EOF_Compress_Hider
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e) //취소 버튼 클릭
+        private void cancel_button_Click(object sender, EventArgs e) //취소 버튼 클릭
         {
             this.Close();
         }
@@ -115,14 +128,33 @@ namespace EOF_Compress_Hider
                 this.Close();
         }
 
-        private void usePassword_TextChanged(object sender, EventArgs e)
+        private void password_confirm_TextChanged(object sender, EventArgs e)
         {
-            if(this.password_textBox.Text != string.Empty &&
+            switch(UsePassword())
+            {
+                case true:
+                    this.encryptionMethod_comboBox.Enabled = true;
+                    break;
+
+                case false:
+                    this.encryptionMethod_comboBox.Enabled = false;
+                    break;
+            }
+        }
+
+        private bool UsePassword() //암호 사용 여부 판별
+        {
+            if (this.password_textBox.Text != string.Empty &&
                 this.password_confirm_textBox.Text != string.Empty)
             {
                 if (this.password_textBox.Text == this.password_confirm_textBox.Text)
-                    this.encryptionMethod_comboBox.Enabled = true;
+                {
+                    return true;
+                }
             }
+
+            return false;
         }
+        #endregion
     }
 }

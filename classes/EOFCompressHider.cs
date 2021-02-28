@@ -1,11 +1,9 @@
-﻿using ICSharpCode.SharpZipLib.Zip;
+﻿using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Windows;
 using System.Text.RegularExpressions;
-using ICSharpCode.SharpZipLib.Core;
-using System.Linq;
+using System.Windows;
 
 namespace EOF_Compress_Hider.classes
 {
@@ -29,6 +27,8 @@ namespace EOF_Compress_Hider.classes
             this._targetPath = srcTargetPath;
             this._outputPath = srcOutputPath;
 
+            this._currentFileIOState = Predef.FileIOState.WORKING; //작업 중임을 알림
+
             try
             {
                 this.Compress();
@@ -38,14 +38,13 @@ namespace EOF_Compress_Hider.classes
                 throw ex;
             }
 
-            this._currentFileIOState = Predef.FileIOState.WORKING; //작업 중임을 알림
+            _main._logManager.UpdateLog("next", Predef.LogMode.APPEND);
 
             byte[] buffer = new byte[4096]; //파일 스트림 처리를 위한 버퍼
 
             FileStream coverImgFileStream; //커버 이미지 파일 스트림
             FileStream targetFileStream; //압축 완료 된 숨기기 위한 파일 스트림
             FileStream outputFileStream; //출력 파일 스트림
-
             FileInfo tmpCompressedInfo; //임시 파일 제거 위한 파일 정보
 
             switch (srcOptionValues.OverwriteCurrentImage)
@@ -61,6 +60,8 @@ namespace EOF_Compress_Hider.classes
                         {
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             coverImgFileStream.Write(buffer, 0, length);
+
+                            _main._logManager.UpdateLog(coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
                         }
                     }
                     catch (Exception ex)
@@ -93,6 +94,8 @@ namespace EOF_Compress_Hider.classes
                         {
                             int length = coverImgFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
+
+                            _main._logManager.UpdateLog(coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -107,12 +110,16 @@ namespace EOF_Compress_Hider.classes
                         outputFileStream.Flush();
                     }
 
+                    _main._logManager.UpdateLog("next", Predef.LogMode.APPEND);
+
                     try //압축 완료 된 숨기기 위한 파일 처리
                     {
                         while (targetFileStream.Position < targetFileStream.Length)
                         {
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
+
+                            _main._logManager.UpdateLog(targetFileStream.Position.ToString() + "bytes / " + targetFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -153,8 +160,6 @@ namespace EOF_Compress_Hider.classes
         #region private:
         private void Compress() //압축 수행
         {
-            _main._logManager.UpdateLog("Compress...", Predef.LogMode.APPEND);
-
             this._tmpCompressPath = Path.GetTempFileName();
 
             FastZipEvents events = new FastZipEvents();
@@ -204,7 +209,7 @@ namespace EOF_Compress_Hider.classes
                     ***/
 
                     string[] fileList = Regex.Split(_targetPath, Environment.NewLine);
-                    this._totalFileCount = fileList.Length - 1; //마지막 줄 바꿈 문자 이후 공백 데이터에 대하여 접근하지 않기 위해 -1
+                    //this._totalFileCount = fileList.Length - 1; //마지막 줄 바꿈 문자 이후 공백 데이터에 대하여 접근하지 않기 위해 -1
 
                     string fileFilter = string.Empty;
                     string targetParentDir = (Directory.GetParent(fileList[0])).ToString();
@@ -219,10 +224,11 @@ namespace EOF_Compress_Hider.classes
                         ***/
                         fileFilter += @"\\" + Path.GetFileName(fileList[i]) + "$;";
                     }
-                    MessageBox.Show(fileFilter);
+                    //MessageBox.Show(fileFilter);
 
                     /***
-                        파일 이름에 공백이 들어 갈 경우 압축 시 해당 파일을 인식을 못하는 문제
+                        파일 이름에 공백이 들어 갈 경우 압축 시 해당 파일을 인식을 못하는 문제'
+                        경로에 공백이 들어가도 인식이 안되나?
                     ***/
 
                     try

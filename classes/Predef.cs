@@ -2,13 +2,6 @@
 {
     public static class Predef
     {
-        public static string[] textBoxData =
-        {
-            "커버로 사용 할 이미지 지정",
-            "숨기기 위한 파일들 혹은 폴더 지정",
-            "출력 파일 지정"
-        };
-
         public enum LogMode
         {
             APPEND,

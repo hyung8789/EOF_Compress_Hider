@@ -100,7 +100,7 @@ namespace EOF_Compress_Hider
             this.init_button.TabIndex = 6;
             this.init_button.Text = "초기화";
             this.init_button.UseVisualStyleBackColor = true;
-            this.init_button.Click += new System.EventHandler(this.btnInit_Click);
+            this.init_button.Click += new System.EventHandler(this.Init_button_Click);
             // 
             // ok_button
             // 
@@ -111,7 +111,7 @@ namespace EOF_Compress_Hider
             this.ok_button.TabIndex = 7;
             this.ok_button.Text = "확인";
             this.ok_button.UseVisualStyleBackColor = true;
-            this.ok_button.Click += new System.EventHandler(this.btnOk_Click);
+            this.ok_button.Click += new System.EventHandler(this.Ok_button_Click);
             // 
             // cancel_button
             // 
@@ -122,7 +122,7 @@ namespace EOF_Compress_Hider
             this.cancel_button.TabIndex = 8;
             this.cancel_button.Text = "취소";
             this.cancel_button.UseVisualStyleBackColor = true;
-            this.cancel_button.Click += new System.EventHandler(this.btnCancel_Click);
+            this.cancel_button.Click += new System.EventHandler(this.cancel_button_Click);
             // 
             // version
             // 
@@ -198,7 +198,7 @@ namespace EOF_Compress_Hider
             this.password_confirm_textBox.PasswordChar = '*';
             this.password_confirm_textBox.Size = new System.Drawing.Size(469, 21);
             this.password_confirm_textBox.TabIndex = 3;
-            this.password_confirm_textBox.TextChanged += new System.EventHandler(this.usePassword_TextChanged);
+            this.password_confirm_textBox.TextChanged += new System.EventHandler(this.password_confirm_TextChanged);
             // 
             // compressLevel_groupBox
             // 
@@ -267,6 +267,7 @@ namespace EOF_Compress_Hider
             // encryptionMethod_comboBox
             // 
             this.encryptionMethod_comboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.encryptionMethod_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.encryptionMethod_comboBox.Enabled = false;
             this.encryptionMethod_comboBox.FormattingEnabled = true;
             this.encryptionMethod_comboBox.Location = new System.Drawing.Point(3, 17);
