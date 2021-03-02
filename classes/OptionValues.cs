@@ -10,21 +10,19 @@
 
         public void Init() //초기화
         {
-            this._overwriteCurrentImage = false;
+            this._OverwriteCurrentCoverImage = false;
             this._compressLevel = Predef.CompressLevel.MID;
-
             this._password = string.Empty;
-            this._encryptionMethod = Predef.EncryptionMethod.ZipCrypto;
         }
-        public bool OverwriteCurrentImage
+        public bool OverwriteCurrentCoverImage
         {
             get 
             { 
-                return this._overwriteCurrentImage; 
+                return this._OverwriteCurrentCoverImage; 
             }
             set 
             { 
-                this._overwriteCurrentImage = value; 
+                this._OverwriteCurrentCoverImage = value; 
             }
         }
         public Predef.CompressLevel CompressLevel
@@ -49,24 +47,12 @@
                 this._password = value; 
             }
         }
-        public Predef.EncryptionMethod EncryptionMethod
-        {
-            get
-            {
-                return this._encryptionMethod;
-            }
-            set
-            {
-                this._encryptionMethod = value;
-            }
-        }
         #endregion
 
         #region private:
-        private bool _overwriteCurrentImage; //기존 이미지 파일에 덮어쓰기
+        private bool _OverwriteCurrentCoverImage; //기존 커버 이미지 파일에 덮어쓰기
         private Predef.CompressLevel _compressLevel; //압축 레벨
         private string _password; //압축 암호
-        private Predef.EncryptionMethod _encryptionMethod; //압축 암호화 방식
         #endregion
     }
 }

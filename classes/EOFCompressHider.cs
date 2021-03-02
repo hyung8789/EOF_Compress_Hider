@@ -1,24 +1,30 @@
-﻿using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
+﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows;
 
 namespace EOF_Compress_Hider.classes
 {
     public class EOFCompressHider
     {
         #region public:
+        public int _totalFileCount; //전체 파일 수
+        public Predef.TargetType _targetType; //Target의 타입 (파일 혹은 폴더)
+
         public Main _main;
 
         public EOFCompressHider(Main srcMain)
         {
-            this.Init();
+            this._targetType = Predef.TargetType.NONE;
             this._main = srcMain; //LogManager 접근 위해 메인 폼 참조
+
+            this._totalFileCount = 0; //해당 데이터는 최초 한 번만 초기화, 이 후 메인 폼에서 Target 선택 시 매 번 할당
+            this.Init();
         }
         public void Generate(OptionValues srcOptionValues, string srcCoverImgPath, string srcTargetPath, string srcOutputPath) //생성 작업 수행
         {
+
+            //예외처리 수정
             if (srcCoverImgPath == string.Empty || srcTargetPath == string.Empty || srcOutputPath == string.Empty)
                 throw new Exception("미 입력된 데이터가 존재합니다.");
 
@@ -38,16 +44,16 @@ namespace EOF_Compress_Hider.classes
                 throw ex;
             }
 
-            _main._logManager.UpdateLog("next", Predef.LogMode.APPEND);
-
-            byte[] buffer = new byte[4096]; //파일 스트림 처리를 위한 버퍼
+            byte[] buffer = new byte[1024 * 1024]; //파일 스트림 처리를 위한 버퍼
 
             FileStream coverImgFileStream; //커버 이미지 파일 스트림
             FileStream targetFileStream; //압축 완료 된 숨기기 위한 파일 스트림
             FileStream outputFileStream; //출력 파일 스트림
             FileInfo tmpCompressedInfo; //임시 파일 제거 위한 파일 정보
 
-            switch (srcOptionValues.OverwriteCurrentImage)
+            _main._logManager.UpdateLog("Target => Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
+
+            switch (srcOptionValues.OverwriteCurrentCoverImage)
             {
                 case true: //기존 커버 이미지에 덮어쓰기
                     coverImgFileStream = new FileStream(this._coverImgPath, FileMode.Append, FileAccess.Write); //커버 이미지 파일 스트림
@@ -61,7 +67,7 @@ namespace EOF_Compress_Hider.classes
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             coverImgFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog(coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Target => Cover Image " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
                     }
                     catch (Exception ex)
@@ -95,7 +101,7 @@ namespace EOF_Compress_Hider.classes
                             int length = coverImgFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog(coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Cover Image => Output " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -110,7 +116,7 @@ namespace EOF_Compress_Hider.classes
                         outputFileStream.Flush();
                     }
 
-                    _main._logManager.UpdateLog("next", Predef.LogMode.APPEND);
+                    _main._logManager.UpdateLog("Target => Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
 
                     try //압축 완료 된 숨기기 위한 파일 처리
                     {
@@ -119,7 +125,7 @@ namespace EOF_Compress_Hider.classes
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog(targetFileStream.Position.ToString() + "bytes / " + targetFileStream.Length.ToString(), Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Target => Output " + "(" + targetFileStream.Position.ToString() + "bytes / " + targetFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -141,10 +147,13 @@ namespace EOF_Compress_Hider.classes
 
                     break;
             }
+
+            _main._logManager.UpdateLog("Generate Done", Predef.LogMode.APPEND);
+            this.Init();
         }
         public void Init() //초기화
         {
-            this._uptoFileCount = this._totalFileCount = 0;
+            this._currentWorkingFileIndex = 0;
             this._coverImgPath = this._targetPath = this._outputPath = this._tmpCompressPath = string.Empty;
             this._currentFileIOState = Predef.FileIOState.IDLE;
         }
@@ -158,114 +167,137 @@ namespace EOF_Compress_Hider.classes
         #endregion
 
         #region private:
-        private void Compress() //압축 수행
-        {
-            this._tmpCompressPath = Path.GetTempFileName();
-
-            FastZipEvents events = new FastZipEvents();
-            events.ProcessFile = this.ProcessFileMethod;
-            FastZip fZip = new FastZip(events);
-
-            fZip.CreateEmptyDirectories = true;
-            fZip.CompressionLevel = (ICSharpCode.SharpZipLib.Zip.Compression.Deflater.CompressionLevel)_main._optionValues.CompressLevel;
-
-            if (_main._optionValues.Password != string.Empty)
-            {
-                fZip.Password = _main._optionValues.Password;
-                fZip.EntryEncryptionMethod = (ICSharpCode.SharpZipLib.Zip.ZipEncryptionMethod)_main._optionValues.EncryptionMethod;
-            }
-
-            fZip.UseZip64 = UseZip64.Dynamic;
-
-            /*** 다중 파일 선택 할 경우 처리를 위해 _targetPath에서 줄 바꿈 문자 개수로 파일 개수 판별 ***/
-            MatchCollection matches = Regex.Matches(this._targetPath, Environment.NewLine);
-            switch (matches.Count)
-            {
-                case 0: //폴더 지정 시 줄 바꿈 문자를 삽입하지 않으므로 한 개의 폴더로 처리 
-                case 1: //한 개의 파일 혹은 폴더
-                    try
-                    {
-                        fZip.CreateZip(this._tmpCompressPath, this._targetPath, true, "", "");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    break;
-
-                default: //두 개 이상의 파일
-                    /***
-                        타겟 파일에 대해 사용자가 선택을 성공적으로 수행 할 경우 기존에 선택 된 파일 목록은 초기화된다.
-                        따라서, 사용자가 서로 다른 부모 디렉터리에 있는 파일을 선택하는 경우는 발생하지 않는다.
-                        ---
-                        => 다중 파일 선택 시 해당 디렉터리 내에서 파일 필터로 추가
-                        해당 디렉터리 내의 자식 디렉터리에 사용자가 타켓 파일로 선택하지 않았지만
-                        동일한 파일 이름이 존재 할 수 있으므로, 재귀적 탐색은 수행하지 않는다.
-                        ---
-                        1) _targetPath를 줄 바꿈 문자 기준으로 각각 분리
-                        2) 각 분리 된 문자열을 파일명으로 변환 및 파일 필터로 사용
-                        3) 소스 디렉터리는 타켓 파일의 부모 디렉터리로 지정
-                    ***/
-
-                    string[] fileList = Regex.Split(_targetPath, Environment.NewLine);
-                    //this._totalFileCount = fileList.Length - 1; //마지막 줄 바꿈 문자 이후 공백 데이터에 대하여 접근하지 않기 위해 -1
-
-                    string fileFilter = string.Empty;
-                    string targetParentDir = (Directory.GetParent(fileList[0])).ToString();
-
-                    for (int i = 0; i < this._totalFileCount; i++)
-                    {
-                        /***
-                            세미콜론 문자로 구분
-                            ex)
-                            모든 .txt 파일 포함 => @"\\.txt$"
-                            test1.txt, test2.bin 파일 포함 => @"\\test1.txt$;\\test2.bin$"
-                        ***/
-                        fileFilter += @"\\" + Path.GetFileName(fileList[i]) + "$;";
-                    }
-                    //MessageBox.Show(fileFilter);
-
-                    /***
-                        파일 이름에 공백이 들어 갈 경우 압축 시 해당 파일을 인식을 못하는 문제'
-                        경로에 공백이 들어가도 인식이 안되나?
-                    ***/
-
-                    try
-                    {
-                        fZip.CreateZip(this._tmpCompressPath, targetParentDir, false, fileFilter, "");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-
-                    break;
-            }
-
-            _main._logManager.UpdateLog("done", Predef.LogMode.APPEND);
-        }
-
-        private void ProcessFileMethod(object sender, ScanEventArgs args) //작업 진행 상황 처리
-        {
-            this._uptoFileCount++;
-            double percent = this._uptoFileCount * 100 / this._totalFileCount;
-
-            _main._logManager.UpdateLog("Compressing..." + Path.GetFileName(args.Name) + " (" + this._uptoFileCount.ToString() + "/" + this._totalFileCount + ")", Predef.LogMode.OVERWRITE);
-            
-            if (_uptoFileCount - 1 == _totalFileCount) //작업 완료 된 파일 수는 1부터 시작이므로 작업 완료 판별을 위하여 -1 한 값과 비교
-                args.ContinueRunning = false;
-        }
-
-        private int _uptoFileCount; //현재 작업 완료 된 파일 수
-        private int _totalFileCount; //전체 파일 수
+        private int _currentWorkingFileIndex; //현재 작업 중인 파일 번호
 
         private string _coverImgPath; //커버 이미지 파일 경로
-        private string _targetPath; //숨기기 위한 파일 경로
+        private string _targetPath; //숨기기 위한 파일 혹은 폴더 경로
         private string _outputPath; //출력 파일 경로
         private string _tmpCompressPath; //작업용 임시 압축 파일 경로
 
         private Predef.FileIOState _currentFileIOState; //현재 파일 작업 상태
+
+        private void Compress() //압축 수행
+        {
+            this._tmpCompressPath = Path.GetTempFileName();
+
+            FileStream outputFileStream = new FileStream(this._tmpCompressPath, FileMode.Create);
+            ZipOutputStream zip = new ZipOutputStream(outputFileStream);
+            zip.SetLevel((int)_main._optionValues.CompressLevel);
+            if (_main._optionValues.Password != string.Empty)
+            {
+                zip.Password = _main._optionValues.Password;
+
+            }
+            zip.UseZip64 = UseZip64.Dynamic;
+
+            string[] fileList = { string.Empty };
+            switch (this._targetType)
+            {
+                case Predef.TargetType.FILE:
+                    fileList = Regex.Split(this._targetPath, Environment.NewLine);
+                    foreach (string fileName in fileList)
+                    {
+                        /***
+                            각 타켓 파일에 대하여 zip 아카이브에 추가 후 기록
+                        ***/
+                        string entryPath = Path.GetFileName(fileName);
+
+                        FileStream fs = File.OpenRead(fileName);
+                        ZipEntry zipEntry = new ZipEntry(entryPath);
+
+                        zipEntry.DateTime = DateTime.Now;
+                        zip.PutNextEntry(zipEntry);
+
+                        this._currentWorkingFileIndex++;
+                        _main._logManager.UpdateLog("Compressing..." + "(" + this._currentWorkingFileIndex.ToString() + "/" + this._totalFileCount + ")", Predef.LogMode.APPEND);
+                        _main._logManager.UpdateLog(entryPath + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
+
+                        while(fs.Position < fs.Length)
+                        {
+                            byte[] buffer = new byte[1024 * 1024]; //파일 스트림 처리를 위한 버퍼
+                            int length = fs.Read(buffer, 0, buffer.Length);
+                            zip.Write(buffer, 0, length);
+
+                            _main._logManager.UpdateLog(entryPath + " (" + fs.Position.ToString() + "bytes / " + fs.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
+                        }
+
+                        fs.Close();
+                    }
+                    break;
+
+                case Predef.TargetType.DIRECTORY:
+                    //해당 디렉터리 내의 파일 및 모든 하위 디렉터리, 하위 파일 포함
+                    RecursiveCompress(this._targetPath, zip, true);
+                    break;
+
+                default:
+                    throw new Exception("잘못 된 TargetType 오류");
+            }
+
+            zip.Finish();
+            zip.Close();
+            outputFileStream.Close();
+
+            _main._logManager.UpdateLog("Compress Done", Predef.LogMode.APPEND);
+        }
+
+        private void RecursiveCompress(string srcPath, ZipOutputStream srcZipOutputStream, bool srcExcludeCurrentDir) //파일 및 디렉터리를 모두 포함하기 위해 재귀적 탐색하여 압축 수행 
+        {
+            string[] fileList = Directory.GetFileSystemEntries(srcPath); //원본 디렉터리의 모든 파일과 하위 디렉터리 탐색
+            bool excludeCurrentDir = srcExcludeCurrentDir; //현재 디렉터리 제외 판별 (true : 현재 디렉터리 제외, false : 현재 디렉터리 포함)
+
+            foreach (string fileName in fileList)
+            {
+                if (Directory.Exists(fileName)) //하위 디렉터리가 존재하면 해당 디렉터리에서 재 탐색
+                {
+                    RecursiveCompress(fileName, srcZipOutputStream, false);
+                }
+                else
+                {
+                    /***
+                        각 타켓 파일에 대하여 zip 아카이브에 추가 후 기록
+                    ***/
+                    FileStream fs = File.OpenRead(fileName);
+
+                    /***
+                        압축 엔트리에 할당 된 경로명 그대로 압축되므로,
+                        dir/file.txt 형식으로 압축 엔트리 추가 위해 전체 디렉터리 경로에서 현재 파일까지의 경로를 제외한다.
+                    ***/
+                    string parentDirName = Directory.GetParent(fileName).Name;
+                    string entryPath = string.Empty;
+                    switch (excludeCurrentDir) //현재 위치가 사용자가 선택한 디렉터리인 경우 현재 디렉터리 이름을 zipEntry에 추가하지 않는다.
+                    {
+                        case true: //현재 디렉터리 이름 제외
+                            entryPath = @"\" + Path.GetFileName(fileName);
+                            break;
+
+                        case false: //현재 디렉터리 이름 포함
+                            entryPath = parentDirName + @"\" + Path.GetFileName(fileName);
+                            break;
+                    }
+
+                    ZipEntry zipEntry = new ZipEntry(entryPath);
+
+                    zipEntry.DateTime = DateTime.Now;
+                    srcZipOutputStream.PutNextEntry(zipEntry);
+
+                    this._currentWorkingFileIndex++;
+                    _main._logManager.UpdateLog("Compressing..." + "(" + this._currentWorkingFileIndex.ToString() + "/" + this._totalFileCount + ")", Predef.LogMode.APPEND);
+                    _main._logManager.UpdateLog(entryPath + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
+
+                    while (fs.Position < fs.Length)
+                    {
+                        byte[] buffer = new byte[1024 * 1024]; //파일 스트림 처리를 위한 버퍼
+                        int length = fs.Read(buffer, 0, buffer.Length);
+                        srcZipOutputStream.Write(buffer, 0, length);
+
+                        _main._logManager.UpdateLog(entryPath + " (" + fs.Position.ToString() + "bytes / " + fs.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
+                    }
+
+                    fs.Close();
+                }
+            }
+        }
         #endregion
     }
 }

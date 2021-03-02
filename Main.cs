@@ -1,10 +1,10 @@
 ﻿using EOF_Compress_Hider.classes;
 using Microsoft.WindowsAPICodePack.Dialogs; //CommonOpenFileDialog
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace EOF_Compress_Hider
@@ -49,7 +49,11 @@ namespace EOF_Compress_Hider
         #region 타이틀바 이벤트 처리
         private void help_button_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("작업 완료 된 출력 파일은 확장자를 .zip으로 변경 후 상용 압축 해제 프로그램을 사용하여 열 수 있습니다.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("- 커버 이미지 : 정상적인 이미지 파일로 위장하기 위해 겉으로 보여지는 이미지 파일을 지정합니다." + Environment.NewLine + Environment.NewLine +
+                "- 숨기기 위한 파일들 혹은 폴더 (이하, Target) : 커버 이미지 내부에 숨기기 위한 파일들 혹은 폴더를 지정합니다." + Environment.NewLine + Environment.NewLine +
+                "- 출력 파일 : 커버 이미지와 Target으로부터 생성 된 출력 파일로서, 일반적인 이미지 파일처럼 보이지만, " +
+                "출력 파일 확장자를 .zip으로 변경하고 상용 압축 해제 유틸리티에서 오픈 시 이미지 헤더부터 EOF까지 무시하고, " +
+                "압축 헤더 위치부터 읽음에 따라 Target에 접근 할 수 있습니다. ", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void minimize_button_Click(object sender, EventArgs e)
@@ -80,6 +84,17 @@ namespace EOF_Compress_Hider
         #region 메인 폼 중간 버튼들 이벤트 처리
         private void select_coverImg_button_Click(object sender, EventArgs e) //커버 이미지 지정 버튼 클릭
         {
+            /*** 이미 파일 처리 작업 중일 시 클릭 차단 ***/
+            switch (_compHider.CurrentFileIOState)
+            {
+                case Predef.FileIOState.WORKING:
+                    MessageBox.Show("처리 중 입니다.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+
+                default:
+                    break;
+            }
+
             if (coverImg_openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 /*** 기존 데이터 모두 초기화 ***/
@@ -92,6 +107,17 @@ namespace EOF_Compress_Hider
 
         private void select_targetFile_button_Click(object sender, EventArgs e) //숨기기 위한 파일 지정 버튼 클릭
         {
+            /*** 이미 파일 처리 작업 중일 시 클릭 차단 ***/
+            switch (_compHider.CurrentFileIOState)
+            {
+                case Predef.FileIOState.WORKING:
+                    MessageBox.Show("처리 중 입니다.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+
+                default:
+                    break;
+            }
+
             CommonOpenFileDialog fileDlg = new CommonOpenFileDialog();
             fileDlg.Multiselect = true;
             fileDlg.IsFolderPicker = false;
@@ -101,42 +127,63 @@ namespace EOF_Compress_Hider
                 /*** Append 위하여 기존 데이터 모두 초기화 ***/
                 this.target_textBox.ResetText();
 
-
-                //파일 다이얼로그에 입력 된 파일의 개수에 따라 마지막 파일은 줄바꿈 문자를 넣지 않도록 수정해야 한다.
-                //이에 따라 Compress 함수에서 파일 리스트와 파일 개수 세는 부분도 수정 해야 한다.
-                //Compress에서 파일 총 개수를 다시 세지 않게 하려면 어떻게 해야 하지??????????????
-                int totalFileCount = Enumerable.Count(fileDlg.FileNames);
+                _compHider._totalFileCount = Enumerable.Count(fileDlg.FileNames);
                 int currentFileIndex = 0;
                 foreach (string fileName in fileDlg.FileNames)
                 {
                     currentFileIndex++;
 
-                    if (currentFileIndex < totalFileCount)
+                    if (currentFileIndex < _compHider._totalFileCount)
                         this.target_textBox.Text += fileName + Environment.NewLine;
                     else
                         this.target_textBox.Text += fileName;
                 }
-                //Enumer
-                //this.target_textBox.Text = this.target_textBox.Text.Remove(this.target_textBox.Text.LastIndexOf(Environment.NewLine)); //마지막 파일은 줄바꿈 문자를 넣지 않도록 수정
 
+                _compHider._targetType = Predef.TargetType.FILE;
                 this._targetInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
         private void select_targetFolder_button_Click(object sender, EventArgs e) //숨기기 위한 폴더 지정 버튼 클릭
         {
+            /*** 이미 파일 처리 작업 중일 시 클릭 차단 ***/
+            switch (_compHider.CurrentFileIOState)
+            {
+                case Predef.FileIOState.WORKING:
+                    MessageBox.Show("처리 중 입니다.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+
+                default:
+                    break;
+            }
+
             CommonOpenFileDialog fileDlg = new CommonOpenFileDialog();
             fileDlg.IsFolderPicker = true;
 
             if (fileDlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                DirectoryInfo dirInfo = new DirectoryInfo(fileDlg.FileName);
+                _compHider._totalFileCount = dirInfo.GetFiles("*.*", SearchOption.AllDirectories).Length;
+
                 this.target_textBox.Text = fileDlg.FileName;
 
+                _compHider._targetType = Predef.TargetType.DIRECTORY;
                 this._targetInitValue = false; //데이터가 할당 되었음을 알림
             }
         }
 
-        private void select_dst_button_Click(object sender, EventArgs e) //출력 파일 선택 버튼 클릭
+        private void select_output_button_Click(object sender, EventArgs e) //출력 파일 선택 버튼 클릭
         {
+            /*** 이미 파일 처리 작업 중일 시 클릭 차단 ***/
+            switch (_compHider.CurrentFileIOState)
+            {
+                case Predef.FileIOState.WORKING:
+                    MessageBox.Show("처리 중 입니다.", "정보", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+
+                default:
+                    break;
+            }
+
             if (this.target_saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 this.output_textBox.Text = target_saveFileDialog.FileName;
@@ -149,31 +196,7 @@ namespace EOF_Compress_Hider
         #region 메인 폼 하단 버튼들 이벤트 처리
         private void gen_button_Click(object sender, EventArgs e) //생성 버튼 클릭
         {
-            //this._compHider.Init();
-
-            if (this._coverImgInitValue || this._targetInitValue || this._outputInitValue) //모든 데이터가 입력되었는지 확인
-            {
-                MessageBox.Show("미 입력된 데이터가 존재합니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (Path.GetExtension(this.coverImg_textBox.Text) != Path.GetExtension(this.output_textBox.Text)) //원본 확장자와 출력 확장자가 다를 경우
-            {
-                DialogResult result = MessageBox.Show("커버로 사용 할 이미지 파일과 출력 파일의 확장자가 다릅니다. 계속 하시겠습니까?", "경고", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                switch (result)
-                {
-                    case DialogResult.Yes:
-                        MessageBox.Show("yes");
-                        break;
-
-                    case DialogResult.No:
-                        MessageBox.Show("no");
-                        break;
-                }
-            }
-
-
-            /*** 이미 파일 처리 작업 중일 시 생성 버튼 중복 클릭 차단 ***/
+            /*** 이미 파일 처리 작업 중일 시 클릭 차단 ***/
             switch (_compHider.CurrentFileIOState)
             {
                 case Predef.FileIOState.WORKING:
@@ -184,18 +207,63 @@ namespace EOF_Compress_Hider
                     break;
             }
 
-            /***
-                전달 위한 다수의 파라미터를 개체로 다시 묶지 않으면서 전달을 위해 
-                ParameterizedThreadStart를 사용하지 않고
-                메서드 안에서 다른 메서드를 호출하여 수행
-            ***/
+            if (this._coverImgInitValue || this._targetInitValue || this._outputInitValue) //모든 데이터가 입력되었는지 확인
+            {
+                //예외처리 수정
+                /*
+                 *  if (!this._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+                {
+                 * */
+                MessageBox.Show("미 입력된 데이터가 존재합니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+            }
+
+           //예외처리 수정 if (!this._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 비활성화 되어 있을 경우에만 확장자 검사
+            {
+                if (Path.GetExtension(this.coverImg_textBox.Text) != Path.GetExtension(this.output_textBox.Text)) //원본 확장자와 출력 확장자가 다를 경우
+                {
+                    DialogResult result = MessageBox.Show("커버로 사용 할 이미지 파일과 출력 파일의 확장자가 다릅니다. 계속 하시겠습니까?", "경고", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    switch (result)
+                    {
+                        case DialogResult.Yes:
+                            break;
+
+                        case DialogResult.No:
+                            return;
+                    }
+                }
+            }
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += new DoWorkEventHandler(worker_DoWork); //실제 수행 할 작업
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted); //작업 완료 시 발생
+            worker.RunWorkerAsync();
+
+            /* 이하 삭제
+            //전달 위한 다수의 파라미터를 개체로 다시 묶지 않으면서 전달을 위해 
+            //ParameterizedThreadStart를 사용하지 않고
+            //메서드 안에서 다른 메서드를 호출하여 수행
             Thread worker = new Thread(() => this._compHider.Generate(this._optionValues, this.coverImg_textBox.Text, this.target_textBox.Text, this.output_textBox.Text));
             worker.IsBackground = true;
-            worker.Start(); //Background 작업 스레드 시작
-
-            //스레드 예외 caft
+            worker.Start();
+            //worker.Join();
+            예외 처리를 위하여 BackgroundWorker로 변경
+            */
         }
 
+        private void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            this._compHider.Generate(this._optionValues, this.coverImg_textBox.Text, this.target_textBox.Text, this.output_textBox.Text);
+        }
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null) //비동기 작업 중 발생한 오류가 존재 시
+            {
+                MessageBox.Show(e.Error.Message);
+            }
+
+            this._compHider.Init();
+        }
         private void option_button_Click(object sender, EventArgs e) //옵션 버튼 클릭
         {
             /*** 파일 처리 작업 중 옵션 메뉴 진입 차단 ***/
@@ -213,7 +281,7 @@ namespace EOF_Compress_Hider
             optionForm.ShowDialog();
 
             /*** 기존 커버 이미지에 덮어쓰기 시 출력 파일 지정 텍스트박스와 선택 버튼 비활성화 ***/
-            switch (this._optionValues.OverwriteCurrentImage)
+            switch (this._optionValues.OverwriteCurrentCoverImage)
             {
                 case true:
                     if (this.output_textBox.Visible)
@@ -257,7 +325,6 @@ namespace EOF_Compress_Hider
         {
             System.Diagnostics.Process.Start("https://github.com/hyung8789");
         }
-
         #endregion
     }
 }

@@ -82,7 +82,7 @@ namespace EOF_Compress_Hider
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.outerMain_LayoutPanel.Size = new System.Drawing.Size(593, 508);
+            this.outerMain_LayoutPanel.Size = new System.Drawing.Size(592, 448);
             this.outerMain_LayoutPanel.TabIndex = 0;
             // 
             // logo
@@ -95,7 +95,7 @@ namespace EOF_Compress_Hider
             this.logo.Location = new System.Drawing.Point(21, 47);
             this.logo.Margin = new System.Windows.Forms.Padding(20);
             this.logo.Name = "logo";
-            this.logo.Size = new System.Drawing.Size(552, 55);
+            this.logo.Size = new System.Drawing.Size(553, 43);
             this.logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.logo.TabIndex = 0;
             this.logo.TabStop = false;
@@ -109,7 +109,7 @@ namespace EOF_Compress_Hider
             this.innerMainButton_tableLayoutPanel.Controls.Add(this.option_button, 0, 1);
             this.innerMainButton_tableLayoutPanel.Controls.Add(this.gen_button, 0, 0);
             this.innerMainButton_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.innerMainButton_tableLayoutPanel.Location = new System.Drawing.Point(4, 389);
+            this.innerMainButton_tableLayoutPanel.Location = new System.Drawing.Point(4, 344);
             this.innerMainButton_tableLayoutPanel.Name = "innerMainButton_tableLayoutPanel";
             this.innerMainButton_tableLayoutPanel.RowCount = 4;
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
@@ -117,7 +117,7 @@ namespace EOF_Compress_Hider
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.innerMainButton_tableLayoutPanel.Size = new System.Drawing.Size(586, 115);
+            this.innerMainButton_tableLayoutPanel.Size = new System.Drawing.Size(587, 100);
             this.innerMainButton_tableLayoutPanel.TabIndex = 2;
             // 
             // exit_button
@@ -125,9 +125,9 @@ namespace EOF_Compress_Hider
             this.exit_button.BackColor = System.Drawing.Color.Black;
             this.exit_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.exit_button.ForeColor = System.Drawing.Color.White;
-            this.exit_button.Location = new System.Drawing.Point(3, 71);
+            this.exit_button.Location = new System.Drawing.Point(3, 63);
             this.exit_button.Name = "exit_button";
-            this.exit_button.Size = new System.Drawing.Size(580, 28);
+            this.exit_button.Size = new System.Drawing.Size(581, 24);
             this.exit_button.TabIndex = 8;
             this.exit_button.Text = "종료";
             this.exit_button.UseVisualStyleBackColor = false;
@@ -139,23 +139,24 @@ namespace EOF_Compress_Hider
             this.about.CausesValidation = false;
             this.about.Dock = System.Windows.Forms.DockStyle.Right;
             this.about.LinkColor = System.Drawing.Color.White;
-            this.about.Location = new System.Drawing.Point(407, 102);
+            this.about.Location = new System.Drawing.Point(408, 90);
             this.about.Name = "about";
-            this.about.Size = new System.Drawing.Size(176, 13);
+            this.about.Size = new System.Drawing.Size(176, 10);
             this.about.TabIndex = 9;
             this.about.TabStop = true;
             this.about.Tag = "";
             this.about.Text = "https://github.com/hyung8789";
             this.about.VisitedLinkColor = System.Drawing.Color.White;
+            this.about.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.about_LinkClicked);
             // 
             // option_button
             // 
             this.option_button.BackColor = System.Drawing.Color.Black;
             this.option_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.option_button.ForeColor = System.Drawing.Color.White;
-            this.option_button.Location = new System.Drawing.Point(3, 37);
+            this.option_button.Location = new System.Drawing.Point(3, 33);
             this.option_button.Name = "option_button";
-            this.option_button.Size = new System.Drawing.Size(580, 28);
+            this.option_button.Size = new System.Drawing.Size(581, 24);
             this.option_button.TabIndex = 7;
             this.option_button.Text = "옵션";
             this.option_button.UseVisualStyleBackColor = false;
@@ -170,7 +171,7 @@ namespace EOF_Compress_Hider
             this.gen_button.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gen_button.Location = new System.Drawing.Point(3, 3);
             this.gen_button.Name = "gen_button";
-            this.gen_button.Size = new System.Drawing.Size(580, 28);
+            this.gen_button.Size = new System.Drawing.Size(581, 24);
             this.gen_button.TabIndex = 6;
             this.gen_button.Text = "Zip and Hide";
             this.gen_button.UseVisualStyleBackColor = false;
@@ -185,9 +186,9 @@ namespace EOF_Compress_Hider
             this.innerMain_flowLayoutPanel.Controls.Add(this.select_output_button);
             this.innerMain_flowLayoutPanel.Controls.Add(this.log_groupBox);
             this.innerMain_flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.innerMain_flowLayoutPanel.Location = new System.Drawing.Point(4, 126);
+            this.innerMain_flowLayoutPanel.Location = new System.Drawing.Point(4, 114);
             this.innerMain_flowLayoutPanel.Name = "innerMain_flowLayoutPanel";
-            this.innerMain_flowLayoutPanel.Size = new System.Drawing.Size(586, 256);
+            this.innerMain_flowLayoutPanel.Size = new System.Drawing.Size(587, 223);
             this.innerMain_flowLayoutPanel.TabIndex = 1;
             // 
             // coverImg_textBox
@@ -198,7 +199,7 @@ namespace EOF_Compress_Hider
             this.coverImg_textBox.Margin = new System.Windows.Forms.Padding(5);
             this.coverImg_textBox.Name = "coverImg_textBox";
             this.coverImg_textBox.ReadOnly = true;
-            this.coverImg_textBox.Size = new System.Drawing.Size(414, 21);
+            this.coverImg_textBox.Size = new System.Drawing.Size(425, 21);
             this.coverImg_textBox.TabIndex = 0;
             this.coverImg_textBox.TabStop = false;
             this.coverImg_textBox.Text = "커버로 사용 할 이미지 지정";
@@ -206,12 +207,11 @@ namespace EOF_Compress_Hider
             // select_coverImg_button
             // 
             this.select_coverImg_button.BackColor = System.Drawing.Color.Black;
-            this.select_coverImg_button.Dock = System.Windows.Forms.DockStyle.Top;
             this.select_coverImg_button.ForeColor = System.Drawing.Color.White;
-            this.select_coverImg_button.Location = new System.Drawing.Point(429, 5);
+            this.select_coverImg_button.Location = new System.Drawing.Point(440, 5);
             this.select_coverImg_button.Margin = new System.Windows.Forms.Padding(5);
             this.select_coverImg_button.Name = "select_coverImg_button";
-            this.select_coverImg_button.Size = new System.Drawing.Size(145, 20);
+            this.select_coverImg_button.Size = new System.Drawing.Size(142, 20);
             this.select_coverImg_button.TabIndex = 2;
             this.select_coverImg_button.Text = "File";
             this.select_coverImg_button.UseVisualStyleBackColor = false;
@@ -221,9 +221,10 @@ namespace EOF_Compress_Hider
             // 
             this.target_panel.Controls.Add(this.target_textBox);
             this.target_panel.Controls.Add(this.target_tableLayoutPanel);
-            this.target_panel.Location = new System.Drawing.Point(3, 33);
+            this.target_panel.Location = new System.Drawing.Point(4, 33);
+            this.target_panel.Margin = new System.Windows.Forms.Padding(4, 3, 3, 3);
             this.target_panel.Name = "target_panel";
-            this.target_panel.Size = new System.Drawing.Size(571, 67);
+            this.target_panel.Size = new System.Drawing.Size(578, 51);
             this.target_panel.TabIndex = 1;
             // 
             // target_textBox
@@ -235,7 +236,7 @@ namespace EOF_Compress_Hider
             this.target_textBox.Name = "target_textBox";
             this.target_textBox.ReadOnly = true;
             this.target_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.target_textBox.Size = new System.Drawing.Size(416, 67);
+            this.target_textBox.Size = new System.Drawing.Size(426, 51);
             this.target_textBox.TabIndex = 1;
             this.target_textBox.TabStop = false;
             this.target_textBox.Text = "숨기기 위한 파일들 혹은 폴더 지정";
@@ -248,12 +249,12 @@ namespace EOF_Compress_Hider
             this.target_tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.target_tableLayoutPanel.Controls.Add(this.select_targetFolder_button, 1, 0);
             this.target_tableLayoutPanel.Controls.Add(this.select_targetFile_button, 0, 0);
-            this.target_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.target_tableLayoutPanel.Location = new System.Drawing.Point(421, 0);
+            this.target_tableLayoutPanel.Location = new System.Drawing.Point(436, 5);
+            this.target_tableLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this.target_tableLayoutPanel.Name = "target_tableLayoutPanel";
             this.target_tableLayoutPanel.RowCount = 1;
             this.target_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.target_tableLayoutPanel.Size = new System.Drawing.Size(150, 67);
+            this.target_tableLayoutPanel.Size = new System.Drawing.Size(142, 41);
             this.target_tableLayoutPanel.TabIndex = 1;
             // 
             // select_targetFolder_button
@@ -261,10 +262,10 @@ namespace EOF_Compress_Hider
             this.select_targetFolder_button.BackColor = System.Drawing.Color.Black;
             this.select_targetFolder_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.select_targetFolder_button.ForeColor = System.Drawing.Color.White;
-            this.select_targetFolder_button.Location = new System.Drawing.Point(80, 5);
+            this.select_targetFolder_button.Location = new System.Drawing.Point(76, 5);
             this.select_targetFolder_button.Margin = new System.Windows.Forms.Padding(5);
             this.select_targetFolder_button.Name = "select_targetFolder_button";
-            this.select_targetFolder_button.Size = new System.Drawing.Size(65, 57);
+            this.select_targetFolder_button.Size = new System.Drawing.Size(61, 31);
             this.select_targetFolder_button.TabIndex = 4;
             this.select_targetFolder_button.Text = "Folder";
             this.select_targetFolder_button.UseVisualStyleBackColor = false;
@@ -279,7 +280,7 @@ namespace EOF_Compress_Hider
             this.select_targetFile_button.Margin = new System.Windows.Forms.Padding(5);
             this.select_targetFile_button.Name = "select_targetFile_button";
             this.select_targetFile_button.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.select_targetFile_button.Size = new System.Drawing.Size(65, 57);
+            this.select_targetFile_button.Size = new System.Drawing.Size(61, 31);
             this.select_targetFile_button.TabIndex = 3;
             this.select_targetFile_button.Text = "File";
             this.select_targetFile_button.UseVisualStyleBackColor = false;
@@ -288,11 +289,11 @@ namespace EOF_Compress_Hider
             // output_textBox
             // 
             this.output_textBox.Dock = System.Windows.Forms.DockStyle.Left;
-            this.output_textBox.Location = new System.Drawing.Point(5, 108);
+            this.output_textBox.Location = new System.Drawing.Point(5, 92);
             this.output_textBox.Margin = new System.Windows.Forms.Padding(5);
             this.output_textBox.Name = "output_textBox";
             this.output_textBox.ReadOnly = true;
-            this.output_textBox.Size = new System.Drawing.Size(414, 21);
+            this.output_textBox.Size = new System.Drawing.Size(425, 21);
             this.output_textBox.TabIndex = 0;
             this.output_textBox.TabStop = false;
             this.output_textBox.Text = "출력 파일 지정";
@@ -301,23 +302,23 @@ namespace EOF_Compress_Hider
             // 
             this.select_output_button.BackColor = System.Drawing.Color.Black;
             this.select_output_button.ForeColor = System.Drawing.Color.White;
-            this.select_output_button.Location = new System.Drawing.Point(429, 108);
+            this.select_output_button.Location = new System.Drawing.Point(440, 92);
             this.select_output_button.Margin = new System.Windows.Forms.Padding(5);
             this.select_output_button.Name = "select_output_button";
-            this.select_output_button.Size = new System.Drawing.Size(145, 20);
+            this.select_output_button.Size = new System.Drawing.Size(142, 20);
             this.select_output_button.TabIndex = 5;
             this.select_output_button.Text = "File";
             this.select_output_button.UseVisualStyleBackColor = false;
-            this.select_output_button.Click += new System.EventHandler(this.select_dst_button_Click);
+            this.select_output_button.Click += new System.EventHandler(this.select_output_button_Click);
             // 
             // log_groupBox
             // 
             this.log_groupBox.Controls.Add(this.log_ListBox);
             this.log_groupBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.log_groupBox.ForeColor = System.Drawing.Color.White;
-            this.log_groupBox.Location = new System.Drawing.Point(3, 136);
+            this.log_groupBox.Location = new System.Drawing.Point(3, 120);
             this.log_groupBox.Name = "log_groupBox";
-            this.log_groupBox.Size = new System.Drawing.Size(579, 116);
+            this.log_groupBox.Size = new System.Drawing.Size(579, 102);
             this.log_groupBox.TabIndex = 0;
             this.log_groupBox.TabStop = false;
             this.log_groupBox.Text = "로그";
@@ -333,7 +334,7 @@ namespace EOF_Compress_Hider
             this.log_ListBox.Location = new System.Drawing.Point(3, 17);
             this.log_ListBox.Name = "log_ListBox";
             this.log_ListBox.ScrollAlwaysVisible = true;
-            this.log_ListBox.Size = new System.Drawing.Size(573, 96);
+            this.log_ListBox.Size = new System.Drawing.Size(573, 82);
             this.log_ListBox.TabIndex = 0;
             this.log_ListBox.TabStop = false;
             // 
@@ -346,7 +347,7 @@ namespace EOF_Compress_Hider
             this.titleBar_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBar_panel.Location = new System.Drawing.Point(4, 4);
             this.titleBar_panel.Name = "titleBar_panel";
-            this.titleBar_panel.Size = new System.Drawing.Size(586, 19);
+            this.titleBar_panel.Size = new System.Drawing.Size(587, 19);
             this.titleBar_panel.TabIndex = 0;
             this.titleBar_panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titleBar_panel_MouseDown);
             this.titleBar_panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.titleBar_panel_MouseMove);
@@ -356,7 +357,7 @@ namespace EOF_Compress_Hider
             // 
             this.help_button.Dock = System.Windows.Forms.DockStyle.Right;
             this.help_button.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.help_button.Location = new System.Drawing.Point(544, 0);
+            this.help_button.Location = new System.Drawing.Point(545, 0);
             this.help_button.Name = "help_button";
             this.help_button.Size = new System.Drawing.Size(20, 17);
             this.help_button.TabIndex = 0;
@@ -367,7 +368,7 @@ namespace EOF_Compress_Hider
             // minimize_button
             // 
             this.minimize_button.Dock = System.Windows.Forms.DockStyle.Right;
-            this.minimize_button.Location = new System.Drawing.Point(564, 0);
+            this.minimize_button.Location = new System.Drawing.Point(565, 0);
             this.minimize_button.Name = "minimize_button";
             this.minimize_button.Size = new System.Drawing.Size(20, 17);
             this.minimize_button.TabIndex = 1;
@@ -391,8 +392,9 @@ namespace EOF_Compress_Hider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(593, 508);
+            this.ClientSize = new System.Drawing.Size(592, 448);
             this.ControlBox = false;
             this.Controls.Add(this.outerMain_LayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -423,24 +425,24 @@ namespace EOF_Compress_Hider
         private System.Windows.Forms.TableLayoutPanel innerMainButton_tableLayoutPanel;
         private System.Windows.Forms.Button exit_button;
         private System.Windows.Forms.LinkLabel about;
-        private System.Windows.Forms.Button option_button;
-        private System.Windows.Forms.Button gen_button;
         private System.Windows.Forms.FlowLayoutPanel innerMain_flowLayoutPanel;
         private System.Windows.Forms.PictureBox logo;
         private System.Windows.Forms.TextBox coverImg_textBox;
-        private System.Windows.Forms.Button select_coverImg_button;
         private System.Windows.Forms.TextBox output_textBox;
-        private System.Windows.Forms.Button select_output_button;
         private System.Windows.Forms.GroupBox log_groupBox;
         private System.Windows.Forms.TableLayoutPanel target_tableLayoutPanel;
-        private System.Windows.Forms.Button select_targetFolder_button;
-        private System.Windows.Forms.Button select_targetFile_button;
         private System.Windows.Forms.Panel titleBar_panel;
         private System.Windows.Forms.Button help_button;
         private System.Windows.Forms.Button minimize_button;
         public System.Windows.Forms.ListBox log_ListBox;
         private System.Windows.Forms.Panel target_panel;
         private System.Windows.Forms.TextBox target_textBox;
+        private System.Windows.Forms.Button option_button;
+        private System.Windows.Forms.Button gen_button;
+        private System.Windows.Forms.Button select_coverImg_button;
+        private System.Windows.Forms.Button select_output_button;
+        private System.Windows.Forms.Button select_targetFolder_button;
+        private System.Windows.Forms.Button select_targetFile_button;
     }
 }
 

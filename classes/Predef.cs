@@ -14,10 +14,17 @@
             WORKING
         }
 
+        public enum TargetType
+        {
+            NONE,
+            FILE,
+            DIRECTORY
+        }
+
         public enum CompressLevel : int //압축 레벨
         {
             LOW = 1,
-            MID = -1, //default
+            MID = 5, //default
             HIGH = 9
         }
 
@@ -27,13 +34,5 @@
            "중간 - Default", //MID
            "느리게 - 최고 압축" //HIGH
         };
-
-        public enum EncryptionMethod : int //암호화 방식
-        {
-            None = 0,
-            ZipCrypto = 1, //default
-            AES128 = 2,
-            AES256 = 3 
-        }
     }
 }

@@ -24,10 +24,6 @@ namespace EOF_Compress_Hider
 
             /*** 콤보박스 데이터 초기화 ***/
             this.compressLevel_comboBox.Items.AddRange(Predef.CompressLevelData); 
-            foreach(object item in Enum.GetValues(typeof(Predef.EncryptionMethod)))
-            {
-                this.encryptionMethod_comboBox.Items.Add(item);
-            }
         }
         #endregion
 
@@ -35,7 +31,7 @@ namespace EOF_Compress_Hider
         private void Option_Load(object sender, EventArgs e) //폼 로드 시 수행
         {
             /*** 메인 폼의 기존 데이터로부터 불러오기 ***/
-            this.overwrite_checkBox.Checked = _main._optionValues.OverwriteCurrentImage;
+            this.overwrite_checkBox.Checked = _main._optionValues.OverwriteCurrentCoverImage;
 
             switch (_main._optionValues.CompressLevel)
             {
@@ -53,18 +49,6 @@ namespace EOF_Compress_Hider
             }
             
             this.password_textBox.Text = this.password_confirm_textBox.Text = _main._optionValues.Password;
-
-            switch (UsePassword())
-            {
-                case true:
-                    this.encryptionMethod_comboBox.Enabled = true;
-                    break;
-
-                case false:
-                    this.encryptionMethod_comboBox.Enabled = false;
-                    break;
-            }
-            this.encryptionMethod_comboBox.SelectedIndex = (int)_main._optionValues.EncryptionMethod;
         }
 
         private void Init_button_Click(object sender, EventArgs e) //초기화 버튼 클릭
@@ -76,7 +60,7 @@ namespace EOF_Compress_Hider
         private void Ok_button_Click(object sender, EventArgs e) //확인 버튼 클릭
         {
             /*** 옵션 값들 저장 후 종료 ***/
-            _main._optionValues.OverwriteCurrentImage = this.overwrite_checkBox.Checked;
+            _main._optionValues.OverwriteCurrentCoverImage = this.overwrite_checkBox.Checked;
 
             switch (this.compressLevel_comboBox.SelectedIndex)
             {
@@ -126,20 +110,6 @@ namespace EOF_Compress_Hider
         {
             if (e.KeyCode == Keys.Escape)
                 this.Close();
-        }
-
-        private void password_confirm_TextChanged(object sender, EventArgs e)
-        {
-            switch(UsePassword())
-            {
-                case true:
-                    this.encryptionMethod_comboBox.Enabled = true;
-                    break;
-
-                case false:
-                    this.encryptionMethod_comboBox.Enabled = false;
-                    break;
-            }
         }
 
         private bool UsePassword() //암호 사용 여부 판별
