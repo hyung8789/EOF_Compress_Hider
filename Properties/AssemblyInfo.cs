@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("https://github.com/hyung8789")]
 [assembly: AssemblyProduct("EOF Compress Hider")]
-[assembly: AssemblyCopyright("hyung8789@gmail.com")]
+[assembly: AssemblyCopyright("https://github.com/hyung8789")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

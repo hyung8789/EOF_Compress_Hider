@@ -66,7 +66,7 @@ namespace EOF_Compress_Hider
             this.outerOption_tableLayoutPanel.RowCount = 2;
             this.outerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
             this.outerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.outerOption_tableLayoutPanel.Size = new System.Drawing.Size(541, 307);
+            this.outerOption_tableLayoutPanel.Size = new System.Drawing.Size(541, 319);
             this.outerOption_tableLayoutPanel.TabIndex = 0;
             // 
             // innerOptionButton_tableLayoutPanel
@@ -81,11 +81,11 @@ namespace EOF_Compress_Hider
             this.innerOptionButton_tableLayoutPanel.Controls.Add(this.cancel_button, 3, 0);
             this.innerOptionButton_tableLayoutPanel.Controls.Add(this.version, 0, 0);
             this.innerOptionButton_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.innerOptionButton_tableLayoutPanel.Location = new System.Drawing.Point(3, 279);
+            this.innerOptionButton_tableLayoutPanel.Location = new System.Drawing.Point(3, 290);
             this.innerOptionButton_tableLayoutPanel.Name = "innerOptionButton_tableLayoutPanel";
             this.innerOptionButton_tableLayoutPanel.RowCount = 1;
             this.innerOptionButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.innerOptionButton_tableLayoutPanel.Size = new System.Drawing.Size(535, 25);
+            this.innerOptionButton_tableLayoutPanel.Size = new System.Drawing.Size(535, 26);
             this.innerOptionButton_tableLayoutPanel.TabIndex = 1;
             // 
             // init_button
@@ -93,7 +93,7 @@ namespace EOF_Compress_Hider
             this.init_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.init_button.Location = new System.Drawing.Point(217, 3);
             this.init_button.Name = "init_button";
-            this.init_button.Size = new System.Drawing.Size(101, 19);
+            this.init_button.Size = new System.Drawing.Size(101, 20);
             this.init_button.TabIndex = 6;
             this.init_button.Text = "초기화";
             this.init_button.UseVisualStyleBackColor = true;
@@ -104,7 +104,7 @@ namespace EOF_Compress_Hider
             this.ok_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ok_button.Location = new System.Drawing.Point(324, 3);
             this.ok_button.Name = "ok_button";
-            this.ok_button.Size = new System.Drawing.Size(101, 19);
+            this.ok_button.Size = new System.Drawing.Size(101, 20);
             this.ok_button.TabIndex = 7;
             this.ok_button.Text = "확인";
             this.ok_button.UseVisualStyleBackColor = true;
@@ -115,7 +115,7 @@ namespace EOF_Compress_Hider
             this.cancel_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cancel_button.Location = new System.Drawing.Point(431, 3);
             this.cancel_button.Name = "cancel_button";
-            this.cancel_button.Size = new System.Drawing.Size(101, 19);
+            this.cancel_button.Size = new System.Drawing.Size(101, 20);
             this.cancel_button.TabIndex = 8;
             this.cancel_button.Text = "취소";
             this.cancel_button.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@ namespace EOF_Compress_Hider
             // 
             this.version.AutoSize = true;
             this.version.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.version.Location = new System.Drawing.Point(3, 13);
+            this.version.Location = new System.Drawing.Point(3, 14);
             this.version.Name = "version";
             this.version.Size = new System.Drawing.Size(208, 12);
             this.version.TabIndex = 12;
@@ -146,10 +146,10 @@ namespace EOF_Compress_Hider
             this.innerOption_tableLayoutPanel.RowCount = 5;
             this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
             this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
-            this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.innerOption_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
-            this.innerOption_tableLayoutPanel.Size = new System.Drawing.Size(535, 270);
+            this.innerOption_tableLayoutPanel.Size = new System.Drawing.Size(535, 281);
             this.innerOption_tableLayoutPanel.TabIndex = 0;
             // 
             // password_groupBox
@@ -158,9 +158,9 @@ namespace EOF_Compress_Hider
             this.password_groupBox.Controls.Add(this.password_textBox);
             this.password_groupBox.Controls.Add(this.password_confirm_textBox);
             this.password_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.password_groupBox.Location = new System.Drawing.Point(29, 151);
+            this.password_groupBox.Location = new System.Drawing.Point(29, 171);
             this.password_groupBox.Name = "password_groupBox";
-            this.password_groupBox.Size = new System.Drawing.Size(475, 102);
+            this.password_groupBox.Size = new System.Drawing.Size(475, 92);
             this.password_groupBox.TabIndex = 2;
             this.password_groupBox.TabStop = false;
             this.password_groupBox.Text = "압축 암호 입력/재입력";
@@ -171,7 +171,7 @@ namespace EOF_Compress_Hider
             this.showPassword_checkBox.Dock = System.Windows.Forms.DockStyle.Right;
             this.showPassword_checkBox.Location = new System.Drawing.Point(384, 17);
             this.showPassword_checkBox.Name = "showPassword_checkBox";
-            this.showPassword_checkBox.Size = new System.Drawing.Size(88, 40);
+            this.showPassword_checkBox.Size = new System.Drawing.Size(88, 30);
             this.showPassword_checkBox.TabIndex = 4;
             this.showPassword_checkBox.Text = "암호 보이기";
             this.showPassword_checkBox.UseVisualStyleBackColor = true;
@@ -180,7 +180,7 @@ namespace EOF_Compress_Hider
             // password_textBox
             // 
             this.password_textBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.password_textBox.Location = new System.Drawing.Point(3, 57);
+            this.password_textBox.Location = new System.Drawing.Point(3, 47);
             this.password_textBox.Name = "password_textBox";
             this.password_textBox.PasswordChar = '*';
             this.password_textBox.Size = new System.Drawing.Size(469, 21);
@@ -189,7 +189,7 @@ namespace EOF_Compress_Hider
             // password_confirm_textBox
             // 
             this.password_confirm_textBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.password_confirm_textBox.Location = new System.Drawing.Point(3, 78);
+            this.password_confirm_textBox.Location = new System.Drawing.Point(3, 68);
             this.password_confirm_textBox.Name = "password_confirm_textBox";
             this.password_confirm_textBox.PasswordChar = '*';
             this.password_confirm_textBox.Size = new System.Drawing.Size(469, 21);
@@ -199,9 +199,9 @@ namespace EOF_Compress_Hider
             // 
             this.compressLevel_groupBox.Controls.Add(this.compressLevel_comboBox);
             this.compressLevel_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.compressLevel_groupBox.Location = new System.Drawing.Point(29, 97);
+            this.compressLevel_groupBox.Location = new System.Drawing.Point(29, 101);
             this.compressLevel_groupBox.Name = "compressLevel_groupBox";
-            this.compressLevel_groupBox.Size = new System.Drawing.Size(475, 48);
+            this.compressLevel_groupBox.Size = new System.Drawing.Size(475, 64);
             this.compressLevel_groupBox.TabIndex = 1;
             this.compressLevel_groupBox.TabStop = false;
             this.compressLevel_groupBox.Text = "압축 레벨";
@@ -221,17 +221,17 @@ namespace EOF_Compress_Hider
             this.overwrite_groupBox.Controls.Add(this.warning_label);
             this.overwrite_groupBox.Controls.Add(this.overwrite_checkBox);
             this.overwrite_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.overwrite_groupBox.Location = new System.Drawing.Point(29, 16);
+            this.overwrite_groupBox.Location = new System.Drawing.Point(29, 17);
             this.overwrite_groupBox.Name = "overwrite_groupBox";
-            this.overwrite_groupBox.Size = new System.Drawing.Size(475, 75);
+            this.overwrite_groupBox.Size = new System.Drawing.Size(475, 78);
             this.overwrite_groupBox.TabIndex = 0;
             this.overwrite_groupBox.TabStop = false;
             // 
             // warning_label
             // 
             this.warning_label.AutoSize = true;
-            this.warning_label.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.warning_label.Location = new System.Drawing.Point(3, 48);
+            this.warning_label.Dock = System.Windows.Forms.DockStyle.Top;
+            this.warning_label.Location = new System.Drawing.Point(3, 17);
             this.warning_label.Name = "warning_label";
             this.warning_label.Size = new System.Drawing.Size(389, 24);
             this.warning_label.TabIndex = 3;
@@ -240,8 +240,8 @@ namespace EOF_Compress_Hider
             // overwrite_checkBox
             // 
             this.overwrite_checkBox.AutoSize = true;
-            this.overwrite_checkBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.overwrite_checkBox.Location = new System.Drawing.Point(3, 17);
+            this.overwrite_checkBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.overwrite_checkBox.Location = new System.Drawing.Point(3, 59);
             this.overwrite_checkBox.Name = "overwrite_checkBox";
             this.overwrite_checkBox.Size = new System.Drawing.Size(469, 16);
             this.overwrite_checkBox.TabIndex = 0;
@@ -252,7 +252,7 @@ namespace EOF_Compress_Hider
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 307);
+            this.ClientSize = new System.Drawing.Size(541, 319);
             this.Controls.Add(this.outerOption_tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace EOF_Compress_Hider.classes
 {
@@ -16,16 +17,20 @@ namespace EOF_Compress_Hider.classes
         public EOFCompressHider(Main srcMain)
         {
             this._targetType = Predef.TargetType.NONE;
-            this._main = srcMain; //LogManager 접근 위해 메인 폼 참조
+            this._main = srcMain; //OptionValues 및 LogManager 접근 위해 메인 폼 참조
 
             this._totalFileCount = 0; //해당 데이터는 최초 한 번만 초기화, 이 후 메인 폼에서 Target 선택 시 매 번 할당
             this.Init();
         }
-        public void Generate(OptionValues srcOptionValues, string srcCoverImgPath, string srcTargetPath, string srcOutputPath) //생성 작업 수행
+        public void Generate(string srcCoverImgPath, string srcTargetPath, string srcOutputPath) //생성 작업 수행
         {
+            bool srcPathEntered = true; //파라미터로 받은 경로 데이터들 입력 여부
 
-            //예외처리 수정
-            if (srcCoverImgPath == string.Empty || srcTargetPath == string.Empty || srcOutputPath == string.Empty)
+            if (srcCoverImgPath == string.Empty || srcTargetPath == string.Empty)
+                srcPathEntered = false;
+            if (srcOutputPath == string.Empty && !this._main._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+                srcPathEntered = false;
+            if (!srcPathEntered)
                 throw new Exception("미 입력된 데이터가 존재합니다.");
 
             /*** 작업 수행 위한 데이터 할당 ***/
@@ -51,9 +56,8 @@ namespace EOF_Compress_Hider.classes
             FileStream outputFileStream; //출력 파일 스트림
             FileInfo tmpCompressedInfo; //임시 파일 제거 위한 파일 정보
 
-            _main._logManager.UpdateLog("Target => Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
-
-            switch (srcOptionValues.OverwriteCurrentCoverImage)
+            _main._logManager.UpdateLog("Target -> Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
+            switch (_main._optionValues.OverwriteCurrentCoverImage)
             {
                 case true: //기존 커버 이미지에 덮어쓰기
                     coverImgFileStream = new FileStream(this._coverImgPath, FileMode.Append, FileAccess.Write); //커버 이미지 파일 스트림
@@ -62,12 +66,12 @@ namespace EOF_Compress_Hider.classes
 
                     try //커버 이미지에 덮어쓰기
                     {
-                        while (coverImgFileStream.Position < coverImgFileStream.Length)
+                        while (targetFileStream.Position < targetFileStream.Length)
                         {
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             coverImgFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog("Target => Cover Image " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Target -> Cover Image " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
                     }
                     catch (Exception ex)
@@ -101,7 +105,7 @@ namespace EOF_Compress_Hider.classes
                             int length = coverImgFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog("Cover Image => Output " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Cover Image -> Output " + "(" + coverImgFileStream.Position.ToString() + "bytes / " + coverImgFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -116,16 +120,16 @@ namespace EOF_Compress_Hider.classes
                         outputFileStream.Flush();
                     }
 
-                    _main._logManager.UpdateLog("Target => Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
+                    _main._logManager.UpdateLog("Target -> Output " + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
 
-                    try //압축 완료 된 숨기기 위한 파일 처리
+                    try //압축 완료 된 Target 파일 처리
                     {
                         while (targetFileStream.Position < targetFileStream.Length)
                         {
                             int length = targetFileStream.Read(buffer, 0, buffer.Length);
                             outputFileStream.Write(buffer, 0, length);
 
-                            _main._logManager.UpdateLog("Target => Output " + "(" + targetFileStream.Position.ToString() + "bytes / " + targetFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
+                            _main._logManager.UpdateLog("Target -> Output " + "(" + targetFileStream.Position.ToString() + "bytes / " + targetFileStream.Length.ToString() + "bytes)", Predef.LogMode.OVERWRITE);
                         }
 
                     }
@@ -212,7 +216,7 @@ namespace EOF_Compress_Hider.classes
                         _main._logManager.UpdateLog("Compressing..." + "(" + this._currentWorkingFileIndex.ToString() + "/" + this._totalFileCount + ")", Predef.LogMode.APPEND);
                         _main._logManager.UpdateLog(entryPath + "(0bytes / 0bytes)", Predef.LogMode.APPEND);
 
-                        while(fs.Position < fs.Length)
+                        while (fs.Position < fs.Length)
                         {
                             byte[] buffer = new byte[1024 * 1024]; //파일 스트림 처리를 위한 버퍼
                             int length = fs.Read(buffer, 0, buffer.Length);
@@ -231,7 +235,7 @@ namespace EOF_Compress_Hider.classes
                     break;
 
                 default:
-                    throw new Exception("잘못 된 TargetType 오류");
+                    throw new Exception("잘못 된 TargetType");
             }
 
             zip.Finish();
