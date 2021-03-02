@@ -36,6 +36,10 @@ You can open it with decompression utility after changing the extension to '.zip
 ## < Download >
 
 
+## < How to use >
+
+## < Download >
+
 ## < License >
 [This application is licensed under the MIT License.](https://github.com/hyung8789/EOF_Compress_Hider/blob/master/LICENSE)</b><br></br>
 Font used in this application is D2 Coding.<br>
