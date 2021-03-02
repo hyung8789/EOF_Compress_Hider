@@ -1,4 +1,4 @@
-# EOF Compress Hier
+# EOF Compress Hider
 
 A simple implementation of Steganography using EOF (End-of-file) method
 
