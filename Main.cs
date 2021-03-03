@@ -42,7 +42,7 @@ namespace EOF_Compress_Hider
         public Main()
         {
             InitializeComponent();
-            this.Font = new Font(FontLibrary.Families[0], 9);
+            this.Font = new Font(FontLibrary.Families[0], 8);
 
             /*** Init ***/
             this._coverImgInitValue = this._targetInitValue = this._outputInitValue = true;

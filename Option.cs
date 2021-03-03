@@ -20,7 +20,7 @@ namespace EOF_Compress_Hider
             InitializeComponent();
             _main = srcMain; //옵션 데이터를 위해 메인 폼 참조
 
-            this.Font = new Font(FontLibrary.Families[0], 9);
+            this.Font = new Font(FontLibrary.Families[0], 8);
 
             /*** 콤보박스 데이터 초기화 ***/
             this.compressLevel_comboBox.Items.AddRange(Predef.CompressLevelData); 
