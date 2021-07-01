@@ -217,10 +217,14 @@ namespace EOF_Compress_Hider
         {
             /*** this._compHider.Generate(string, string, string) 내부에서도 받은 파라미터 데이터에 대하여 자체적으로 검사하지만, 만약을 대비하여 모든 데이터가 입력되었는지 검사 ***/
             bool PathEntered = true;
-            if (this._coverImgInitValue || this._targetInitValue || this._outputInitValue)
+
+            if (this._coverImgInitValue || this._targetInitValue) //커버 이미지, 타겟이 할당되지 않았을 경우
                 PathEntered = false;
-            if (!this._optionValues.OverwriteCurrentCoverImage && this._outputInitValue) //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+            if (this._outputInitValue && !this._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 비활성화 되어 있을 경우, 출력 경로 요구
                 PathEntered = false;
+            else //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+                PathEntered = true;
+
             if (!PathEntered)
             {
                 MessageBox.Show("미 입력된 데이터가 존재합니다.", "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);

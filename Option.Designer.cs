@@ -129,7 +129,7 @@ namespace EOF_Compress_Hider
             this.version.Name = "version";
             this.version.Size = new System.Drawing.Size(208, 12);
             this.version.TabIndex = 12;
-            this.version.Text = "ver.1";
+            this.version.Text = "ver.1.1";
             // 
             // innerOption_tableLayoutPanel
             // 

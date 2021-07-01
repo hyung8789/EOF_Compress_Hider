@@ -32,8 +32,16 @@ namespace EOF_Compress_Hider
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.outerMain_LayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.innerMain_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.coverImg_textBox = new System.Windows.Forms.TextBox();
+            this.coverImg_button = new System.Windows.Forms.Button();
+            this.target_textBox = new System.Windows.Forms.TextBox();
+            this.target_button = new System.Windows.Forms.Button();
+            this.output_textBox = new System.Windows.Forms.TextBox();
+            this.output_button = new System.Windows.Forms.Button();
             this.log_groupBox = new System.Windows.Forms.GroupBox();
             this.log_ListBox = new System.Windows.Forms.ListBox();
+            this.logo = new System.Windows.Forms.PictureBox();
             this.innerMainButton_tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.exit_button = new System.Windows.Forms.Button();
             this.about = new System.Windows.Forms.LinkLabel();
@@ -44,21 +52,13 @@ namespace EOF_Compress_Hider
             this.minimize_button = new System.Windows.Forms.Button();
             this.coverImg_openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.target_saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.coverImg_textBox = new System.Windows.Forms.TextBox();
-            this.coverImg_button = new System.Windows.Forms.Button();
-            this.target_textBox = new System.Windows.Forms.TextBox();
-            this.target_button = new System.Windows.Forms.Button();
-            this.output_textBox = new System.Windows.Forms.TextBox();
-            this.output_button = new System.Windows.Forms.Button();
-            this.logo = new System.Windows.Forms.PictureBox();
             this.outerMain_LayoutPanel.SuspendLayout();
             this.innerMain_tableLayoutPanel.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.log_groupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.innerMainButton_tableLayoutPanel.SuspendLayout();
             this.titleBar_panel.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.logo)).BeginInit();
             this.SuspendLayout();
             // 
             // outerMain_LayoutPanel
@@ -72,14 +72,13 @@ namespace EOF_Compress_Hider
             this.outerMain_LayoutPanel.Controls.Add(this.titleBar_panel, 0, 0);
             this.outerMain_LayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.outerMain_LayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.outerMain_LayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.outerMain_LayoutPanel.Name = "outerMain_LayoutPanel";
             this.outerMain_LayoutPanel.RowCount = 4;
-            this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 55F));
             this.outerMain_LayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.outerMain_LayoutPanel.Size = new System.Drawing.Size(552, 534);
+            this.outerMain_LayoutPanel.Size = new System.Drawing.Size(483, 427);
             this.outerMain_LayoutPanel.TabIndex = 0;
             // 
             // innerMain_tableLayoutPanel
@@ -89,25 +88,124 @@ namespace EOF_Compress_Hider
             this.innerMain_tableLayoutPanel.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.innerMain_tableLayoutPanel.Controls.Add(this.log_groupBox, 0, 1);
             this.innerMain_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.innerMain_tableLayoutPanel.Location = new System.Drawing.Point(4, 136);
-            this.innerMain_tableLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.innerMain_tableLayoutPanel.Location = new System.Drawing.Point(4, 109);
             this.innerMain_tableLayoutPanel.Name = "innerMain_tableLayoutPanel";
             this.innerMain_tableLayoutPanel.RowCount = 2;
             this.innerMain_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.innerMain_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.innerMain_tableLayoutPanel.Size = new System.Drawing.Size(544, 266);
+            this.innerMain_tableLayoutPanel.Size = new System.Drawing.Size(475, 212);
             this.innerMain_tableLayoutPanel.TabIndex = 2;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.coverImg_textBox);
+            this.flowLayoutPanel1.Controls.Add(this.coverImg_button);
+            this.flowLayoutPanel1.Controls.Add(this.target_textBox);
+            this.flowLayoutPanel1.Controls.Add(this.target_button);
+            this.flowLayoutPanel1.Controls.Add(this.output_textBox);
+            this.flowLayoutPanel1.Controls.Add(this.output_button);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 2);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(469, 123);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // coverImg_textBox
+            // 
+            this.coverImg_textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.coverImg_textBox.ImeMode = System.Windows.Forms.ImeMode.On;
+            this.coverImg_textBox.Location = new System.Drawing.Point(5, 5);
+            this.coverImg_textBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.coverImg_textBox.Name = "coverImg_textBox";
+            this.coverImg_textBox.ReadOnly = true;
+            this.coverImg_textBox.Size = new System.Drawing.Size(414, 21);
+            this.coverImg_textBox.TabIndex = 0;
+            this.coverImg_textBox.TabStop = false;
+            this.coverImg_textBox.Text = "커버로 사용 할 이미지 지정";
+            // 
+            // coverImg_button
+            // 
+            this.coverImg_button.BackColor = System.Drawing.Color.Black;
+            this.coverImg_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.coverImg_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.coverImg_button.ForeColor = System.Drawing.Color.White;
+            this.coverImg_button.Location = new System.Drawing.Point(429, 5);
+            this.coverImg_button.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.coverImg_button.Name = "coverImg_button";
+            this.coverImg_button.Size = new System.Drawing.Size(32, 20);
+            this.coverImg_button.TabIndex = 2;
+            this.coverImg_button.TabStop = false;
+            this.coverImg_button.Text = "C";
+            this.coverImg_button.UseVisualStyleBackColor = false;
+            this.coverImg_button.Click += new System.EventHandler(this.coverImg_button_Click);
+            // 
+            // target_textBox
+            // 
+            this.target_textBox.Location = new System.Drawing.Point(5, 35);
+            this.target_textBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.target_textBox.Multiline = true;
+            this.target_textBox.Name = "target_textBox";
+            this.target_textBox.ReadOnly = true;
+            this.target_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.target_textBox.Size = new System.Drawing.Size(414, 56);
+            this.target_textBox.TabIndex = 0;
+            this.target_textBox.TabStop = false;
+            this.target_textBox.Text = "숨기기 위한 파일들 혹은 폴더 지정";
+            this.target_textBox.WordWrap = false;
+            // 
+            // target_button
+            // 
+            this.target_button.BackColor = System.Drawing.Color.Black;
+            this.target_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.target_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.target_button.ForeColor = System.Drawing.Color.White;
+            this.target_button.Location = new System.Drawing.Point(429, 35);
+            this.target_button.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.target_button.Name = "target_button";
+            this.target_button.Size = new System.Drawing.Size(32, 20);
+            this.target_button.TabIndex = 3;
+            this.target_button.TabStop = false;
+            this.target_button.Text = "T";
+            this.target_button.UseVisualStyleBackColor = false;
+            this.target_button.MouseClick += new System.Windows.Forms.MouseEventHandler(this.target_button_MouseClick);
+            // 
+            // output_textBox
+            // 
+            this.output_textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.output_textBox.Location = new System.Drawing.Point(5, 101);
+            this.output_textBox.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.output_textBox.Name = "output_textBox";
+            this.output_textBox.ReadOnly = true;
+            this.output_textBox.Size = new System.Drawing.Size(414, 21);
+            this.output_textBox.TabIndex = 0;
+            this.output_textBox.TabStop = false;
+            this.output_textBox.Text = "출력 파일 지정";
+            // 
+            // output_button
+            // 
+            this.output_button.BackColor = System.Drawing.Color.Black;
+            this.output_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.output_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.output_button.ForeColor = System.Drawing.Color.White;
+            this.output_button.Location = new System.Drawing.Point(429, 101);
+            this.output_button.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.output_button.Name = "output_button";
+            this.output_button.Size = new System.Drawing.Size(32, 20);
+            this.output_button.TabIndex = 4;
+            this.output_button.TabStop = false;
+            this.output_button.Text = "O";
+            this.output_button.UseVisualStyleBackColor = false;
+            this.output_button.Click += new System.EventHandler(this.output_button_Click);
             // 
             // log_groupBox
             // 
             this.log_groupBox.Controls.Add(this.log_ListBox);
             this.log_groupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.log_groupBox.ForeColor = System.Drawing.Color.White;
-            this.log_groupBox.Location = new System.Drawing.Point(3, 163);
-            this.log_groupBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.log_groupBox.Location = new System.Drawing.Point(3, 130);
             this.log_groupBox.Name = "log_groupBox";
-            this.log_groupBox.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.log_groupBox.Size = new System.Drawing.Size(538, 99);
+            this.log_groupBox.Size = new System.Drawing.Size(469, 79);
             this.log_groupBox.TabIndex = 2;
             this.log_groupBox.TabStop = false;
             this.log_groupBox.Text = "로그";
@@ -119,14 +217,28 @@ namespace EOF_Compress_Hider
             this.log_ListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.log_ListBox.ForeColor = System.Drawing.Color.Lime;
             this.log_ListBox.FormattingEnabled = true;
-            this.log_ListBox.ItemHeight = 15;
-            this.log_ListBox.Location = new System.Drawing.Point(3, 22);
-            this.log_ListBox.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.log_ListBox.ItemHeight = 12;
+            this.log_ListBox.Location = new System.Drawing.Point(3, 17);
             this.log_ListBox.Name = "log_ListBox";
             this.log_ListBox.ScrollAlwaysVisible = true;
-            this.log_ListBox.Size = new System.Drawing.Size(532, 73);
+            this.log_ListBox.Size = new System.Drawing.Size(463, 59);
             this.log_ListBox.TabIndex = 0;
             this.log_ListBox.TabStop = false;
+            // 
+            // logo
+            // 
+            this.logo.BackColor = System.Drawing.Color.Black;
+            this.logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.logo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logo.Image = global::EOF_Compress_Hider.Properties.Resources.logo;
+            this.logo.InitialImage = null;
+            this.logo.Location = new System.Drawing.Point(11, 36);
+            this.logo.Margin = new System.Windows.Forms.Padding(10, 10, 10, 10);
+            this.logo.Name = "logo";
+            this.logo.Size = new System.Drawing.Size(461, 59);
+            this.logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.logo.TabIndex = 0;
+            this.logo.TabStop = false;
             // 
             // innerMainButton_tableLayoutPanel
             // 
@@ -137,15 +249,14 @@ namespace EOF_Compress_Hider
             this.innerMainButton_tableLayoutPanel.Controls.Add(this.option_button, 0, 1);
             this.innerMainButton_tableLayoutPanel.Controls.Add(this.gen_button, 0, 0);
             this.innerMainButton_tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.innerMainButton_tableLayoutPanel.Location = new System.Drawing.Point(4, 411);
-            this.innerMainButton_tableLayoutPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.innerMainButton_tableLayoutPanel.Location = new System.Drawing.Point(4, 328);
             this.innerMainButton_tableLayoutPanel.Name = "innerMainButton_tableLayoutPanel";
             this.innerMainButton_tableLayoutPanel.RowCount = 4;
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
             this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
-            this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.innerMainButton_tableLayoutPanel.Size = new System.Drawing.Size(544, 118);
+            this.innerMainButton_tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 16F));
+            this.innerMainButton_tableLayoutPanel.Size = new System.Drawing.Size(475, 95);
             this.innerMainButton_tableLayoutPanel.TabIndex = 2;
             // 
             // exit_button
@@ -154,10 +265,9 @@ namespace EOF_Compress_Hider
             this.exit_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.exit_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exit_button.ForeColor = System.Drawing.Color.White;
-            this.exit_button.Location = new System.Drawing.Point(3, 68);
-            this.exit_button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.exit_button.Location = new System.Drawing.Point(3, 55);
             this.exit_button.Name = "exit_button";
-            this.exit_button.Size = new System.Drawing.Size(538, 24);
+            this.exit_button.Size = new System.Drawing.Size(469, 20);
             this.exit_button.TabIndex = 7;
             this.exit_button.Text = "종료";
             this.exit_button.UseVisualStyleBackColor = false;
@@ -169,9 +279,9 @@ namespace EOF_Compress_Hider
             this.about.CausesValidation = false;
             this.about.Dock = System.Windows.Forms.DockStyle.Right;
             this.about.LinkColor = System.Drawing.Color.White;
-            this.about.Location = new System.Drawing.Point(335, 96);
+            this.about.Location = new System.Drawing.Point(296, 78);
             this.about.Name = "about";
-            this.about.Size = new System.Drawing.Size(206, 22);
+            this.about.Size = new System.Drawing.Size(176, 17);
             this.about.TabIndex = 8;
             this.about.TabStop = true;
             this.about.Tag = "";
@@ -185,10 +295,9 @@ namespace EOF_Compress_Hider
             this.option_button.Dock = System.Windows.Forms.DockStyle.Fill;
             this.option_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.option_button.ForeColor = System.Drawing.Color.White;
-            this.option_button.Location = new System.Drawing.Point(3, 36);
-            this.option_button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.option_button.Location = new System.Drawing.Point(3, 29);
             this.option_button.Name = "option_button";
-            this.option_button.Size = new System.Drawing.Size(538, 24);
+            this.option_button.Size = new System.Drawing.Size(469, 20);
             this.option_button.TabIndex = 6;
             this.option_button.Text = "옵션";
             this.option_button.UseVisualStyleBackColor = false;
@@ -202,10 +311,9 @@ namespace EOF_Compress_Hider
             this.gen_button.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gen_button.ForeColor = System.Drawing.Color.White;
             this.gen_button.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.gen_button.Location = new System.Drawing.Point(3, 4);
-            this.gen_button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gen_button.Location = new System.Drawing.Point(3, 3);
             this.gen_button.Name = "gen_button";
-            this.gen_button.Size = new System.Drawing.Size(538, 24);
+            this.gen_button.Size = new System.Drawing.Size(469, 20);
             this.gen_button.TabIndex = 5;
             this.gen_button.Text = "Zip and Hide";
             this.gen_button.UseVisualStyleBackColor = false;
@@ -218,10 +326,9 @@ namespace EOF_Compress_Hider
             this.titleBar_panel.Controls.Add(this.help_button);
             this.titleBar_panel.Controls.Add(this.minimize_button);
             this.titleBar_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBar_panel.Location = new System.Drawing.Point(4, 5);
-            this.titleBar_panel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.titleBar_panel.Location = new System.Drawing.Point(4, 4);
             this.titleBar_panel.Name = "titleBar_panel";
-            this.titleBar_panel.Size = new System.Drawing.Size(544, 22);
+            this.titleBar_panel.Size = new System.Drawing.Size(475, 18);
             this.titleBar_panel.TabIndex = 0;
             this.titleBar_panel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titleBar_panel_MouseDown);
             this.titleBar_panel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.titleBar_panel_MouseMove);
@@ -233,10 +340,9 @@ namespace EOF_Compress_Hider
             this.help_button.Dock = System.Windows.Forms.DockStyle.Right;
             this.help_button.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.help_button.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.help_button.Location = new System.Drawing.Point(496, 0);
-            this.help_button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.help_button.Location = new System.Drawing.Point(433, 0);
             this.help_button.Name = "help_button";
-            this.help_button.Size = new System.Drawing.Size(23, 20);
+            this.help_button.Size = new System.Drawing.Size(20, 16);
             this.help_button.TabIndex = 0;
             this.help_button.Text = "?";
             this.help_button.UseVisualStyleBackColor = false;
@@ -246,10 +352,9 @@ namespace EOF_Compress_Hider
             // 
             this.minimize_button.Dock = System.Windows.Forms.DockStyle.Right;
             this.minimize_button.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.minimize_button.Location = new System.Drawing.Point(519, 0);
-            this.minimize_button.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.minimize_button.Location = new System.Drawing.Point(453, 0);
             this.minimize_button.Name = "minimize_button";
-            this.minimize_button.Size = new System.Drawing.Size(23, 20);
+            this.minimize_button.Size = new System.Drawing.Size(20, 16);
             this.minimize_button.TabIndex = 1;
             this.minimize_button.Text = "-";
             this.minimize_button.UseVisualStyleBackColor = true;
@@ -265,133 +370,16 @@ namespace EOF_Compress_Hider
             this.target_saveFileDialog.Filter = resources.GetString("target_saveFileDialog.Filter");
             this.target_saveFileDialog.Title = "출력 파일 지정";
             // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.coverImg_textBox);
-            this.flowLayoutPanel1.Controls.Add(this.coverImg_button);
-            this.flowLayoutPanel1.Controls.Add(this.target_textBox);
-            this.flowLayoutPanel1.Controls.Add(this.target_button);
-            this.flowLayoutPanel1.Controls.Add(this.output_textBox);
-            this.flowLayoutPanel1.Controls.Add(this.output_button);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(538, 153);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // coverImg_textBox
-            // 
-            this.coverImg_textBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.coverImg_textBox.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.coverImg_textBox.Location = new System.Drawing.Point(6, 6);
-            this.coverImg_textBox.Margin = new System.Windows.Forms.Padding(6);
-            this.coverImg_textBox.Name = "coverImg_textBox";
-            this.coverImg_textBox.ReadOnly = true;
-            this.coverImg_textBox.Size = new System.Drawing.Size(472, 25);
-            this.coverImg_textBox.TabIndex = 0;
-            this.coverImg_textBox.TabStop = false;
-            this.coverImg_textBox.Text = "커버로 사용 할 이미지 지정";
-            // 
-            // coverImg_button
-            // 
-            this.coverImg_button.BackColor = System.Drawing.Color.Black;
-            this.coverImg_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.coverImg_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.coverImg_button.ForeColor = System.Drawing.Color.White;
-            this.coverImg_button.Location = new System.Drawing.Point(490, 6);
-            this.coverImg_button.Margin = new System.Windows.Forms.Padding(6);
-            this.coverImg_button.Name = "coverImg_button";
-            this.coverImg_button.Size = new System.Drawing.Size(36, 25);
-            this.coverImg_button.TabIndex = 2;
-            this.coverImg_button.TabStop = false;
-            this.coverImg_button.Text = "C";
-            this.coverImg_button.UseVisualStyleBackColor = false;
-            this.coverImg_button.Click += new System.EventHandler(this.coverImg_button_Click);
-            // 
-            // target_textBox
-            // 
-            this.target_textBox.Location = new System.Drawing.Point(6, 43);
-            this.target_textBox.Margin = new System.Windows.Forms.Padding(6);
-            this.target_textBox.Multiline = true;
-            this.target_textBox.Name = "target_textBox";
-            this.target_textBox.ReadOnly = true;
-            this.target_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.target_textBox.Size = new System.Drawing.Size(472, 69);
-            this.target_textBox.TabIndex = 0;
-            this.target_textBox.TabStop = false;
-            this.target_textBox.Text = "숨기기 위한 파일들 혹은 폴더 지정";
-            this.target_textBox.WordWrap = false;
-            // 
-            // target_button
-            // 
-            this.target_button.BackColor = System.Drawing.Color.Black;
-            this.target_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.target_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.target_button.ForeColor = System.Drawing.Color.White;
-            this.target_button.Location = new System.Drawing.Point(490, 43);
-            this.target_button.Margin = new System.Windows.Forms.Padding(6);
-            this.target_button.Name = "target_button";
-            this.target_button.Size = new System.Drawing.Size(36, 25);
-            this.target_button.TabIndex = 3;
-            this.target_button.TabStop = false;
-            this.target_button.Text = "T";
-            this.target_button.UseVisualStyleBackColor = false;
-            this.target_button.MouseClick += new System.Windows.Forms.MouseEventHandler(this.target_button_MouseClick);
-            // 
-            // output_textBox
-            // 
-            this.output_textBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.output_textBox.Location = new System.Drawing.Point(6, 124);
-            this.output_textBox.Margin = new System.Windows.Forms.Padding(6);
-            this.output_textBox.Name = "output_textBox";
-            this.output_textBox.ReadOnly = true;
-            this.output_textBox.Size = new System.Drawing.Size(472, 25);
-            this.output_textBox.TabIndex = 0;
-            this.output_textBox.TabStop = false;
-            this.output_textBox.Text = "출력 파일 지정";
-            // 
-            // output_button
-            // 
-            this.output_button.BackColor = System.Drawing.Color.Black;
-            this.output_button.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.output_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.output_button.ForeColor = System.Drawing.Color.White;
-            this.output_button.Location = new System.Drawing.Point(490, 124);
-            this.output_button.Margin = new System.Windows.Forms.Padding(6);
-            this.output_button.Name = "output_button";
-            this.output_button.Size = new System.Drawing.Size(36, 25);
-            this.output_button.TabIndex = 4;
-            this.output_button.TabStop = false;
-            this.output_button.Text = "O";
-            this.output_button.UseVisualStyleBackColor = false;
-            this.output_button.Click += new System.EventHandler(this.output_button_Click);
-            // 
-            // logo
-            // 
-            this.logo.BackColor = System.Drawing.Color.Black;
-            this.logo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.logo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logo.Image = global::EOF_Compress_Hider.Properties.Resources.logo;
-            this.logo.InitialImage = null;
-            this.logo.Location = new System.Drawing.Point(12, 44);
-            this.logo.Margin = new System.Windows.Forms.Padding(11, 12, 11, 12);
-            this.logo.Name = "logo";
-            this.logo.Size = new System.Drawing.Size(528, 75);
-            this.logo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.logo.TabIndex = 0;
-            this.logo.TabStop = false;
-            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(552, 534);
+            this.ClientSize = new System.Drawing.Size(483, 427);
             this.ControlBox = false;
             this.Controls.Add(this.outerMain_LayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Main";
@@ -399,13 +387,13 @@ namespace EOF_Compress_Hider
             this.Text = "EOF Compress Hider";
             this.outerMain_LayoutPanel.ResumeLayout(false);
             this.innerMain_tableLayoutPanel.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.log_groupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.logo)).EndInit();
             this.innerMainButton_tableLayoutPanel.ResumeLayout(false);
             this.innerMainButton_tableLayoutPanel.PerformLayout();
             this.titleBar_panel.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.logo)).EndInit();
             this.ResumeLayout(false);
 
         }

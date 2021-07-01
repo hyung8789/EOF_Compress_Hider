@@ -26,10 +26,13 @@ namespace EOF_Compress_Hider.classes
         {
             bool srcPathEntered = true; //파라미터로 받은 경로 데이터들 입력 여부
 
-            if (srcCoverImgPath == string.Empty || srcTargetPath == string.Empty)
+            if (srcCoverImgPath == string.Empty || srcTargetPath == string.Empty) //커버 이미지, 타겟이 할당되지 않았을 경우
                 srcPathEntered = false;
-            if (srcOutputPath == string.Empty && !this._main._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+            if (srcOutputPath == string.Empty && !this._main._optionValues.OverwriteCurrentCoverImage) //기존 커버 이미지에 덮어쓰기 옵션이 비활성화 되어 있을 경우, 출력 경로 요구
                 srcPathEntered = false;
+            else //기존 커버 이미지에 덮어쓰기 옵션이 활성화 되어 있을 경우, 출력 경로는 무시
+                srcPathEntered = true;
+
             if (!srcPathEntered)
                 throw new Exception("미 입력된 데이터가 존재합니다.");
 
